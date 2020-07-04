@@ -35,69 +35,19 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
+        <ImageView
+            android:id="@+id/product_image"
+            android:layout_width="150dp"
+            android:layout_height="200dp"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintTop_toTopOf="parent"/>
+
         <TextView
-            android:id="@+id/data_name"
             android:layout_width="0dp"
-            android:layout_height="wrap_content"
+            android:layout_height="0dp"
             android:text="@{primaryText}"
-            app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintRight_toRightOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            android:layout_marginLeft="20dp"
-            android:layout_marginTop="20dp"
-            android:layout_marginRight="20dp"/>
-
-        <View
-            android:id="@+id/middle_section_line"
-            android:layout_width="match_parent"
-            android:layout_height="0.5dp"
-            android:background="#777777"
-            android:layout_marginLeft="20dp"
-            android:layout_marginTop="20dp"
-            android:layout_marginRight="20dp"
-            app:layout_constraintTop_toBottomOf="@id/data_name"
-            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintLeft_toRightOf="@id/product_image"
             app:layout_constraintRight_toRightOf="parent"/>
-
-        <TextView
-            android:id="@+id/bottom_text"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:text="@{secondaryText}"
-            app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintRight_toRightOf="parent"
-            android:layout_marginLeft="20dp"
-            android:layout_marginTop="20dp"
-            android:layout_marginRight="20dp"
-            android:layout_marginBottom="20dp"
-            app:layout_constraintTop_toBottomOf="@id/middle_section_line"
-            app:layout_constraintBottom_toBottomOf="parent"/>
-
-        <ImageView
-            android:id="@+id/item_favorite_view"
-            android:layout_width="25dp"
-            android:layout_height="25dp"
-            android:layout_marginStart="20dp"
-            android:layout_marginTop="10dp"
-            android:layout_marginBottom="10dp"
-            android:layout_marginEnd="35dp"
-            android:visibility="@{isFavorite ? View.VISIBLE : View.INVISIBLE}"
-            app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toTopOf="@id/bottom_text"
-            app:layout_constraintBottom_toBottomOf="@id/bottom_text" />
-
-        <ImageView
-            android:id="@+id/item_unfavorite_view"
-            android:layout_width="25dp"
-            android:layout_height="25dp"
-            android:layout_marginStart="20dp"
-            android:layout_marginTop="10dp"
-            android:layout_marginBottom="10dp"
-            android:layout_marginEnd="35dp"
-            android:visibility="@{isFavorite ? View.INVISIBLE : View.VISIBLE}"
-            app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toTopOf="@id/bottom_text"
-            app:layout_constraintBottom_toBottomOf="@id/bottom_text" />
-
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

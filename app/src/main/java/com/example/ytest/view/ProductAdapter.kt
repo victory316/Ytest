@@ -37,6 +37,16 @@ class ProductAdapter(private val answersViewModel: MainViewModel) :
     ) : RecyclerView.ViewHolder(binding.root) {
 
         fun bind(item: Product) {
+
+            binding.apply {
+                viewModel = answersViewModel
+                imageUrl = item.imagePath
+                primaryText = item.name
+
+                executePendingBindings()
+            }
+
+
 //            val questionNumberString = "${item.id}번"
 //
 //            binding.apply {

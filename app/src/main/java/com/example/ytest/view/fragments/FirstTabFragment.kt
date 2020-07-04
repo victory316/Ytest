@@ -7,9 +7,11 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.observe
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.ytest.R
 import com.example.ytest.databinding.FragmentFirstTabBinding
 import com.example.ytest.util.InjectorUtils
+import com.example.ytest.view.ProductAdapter
 import com.example.ytest.viewmodel.MainViewModel
 import timber.log.Timber
 
@@ -55,8 +57,16 @@ class FirstTabFragment : Fragment() {
 
 
     private fun setupUi() {
-        mainViewModel.queryList.observe(viewLifecycleOwner) {
+        val layoutManager = LinearLayoutManager(requireActivity())
+        val adapter = ProductAdapter(mainViewModel)
 
+        binding.allList.adapter = adapter
+        binding.allList.layoutManager = layoutManager
+
+        mainViewModel.queryList.observe(viewLifecycleOwner) {
+            Timber.tag("listTest").d("submitting : $it")
+
+            adapter.submitList(it)
         }
     }
 

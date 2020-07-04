@@ -11,6 +11,10 @@ class MainViewModel internal constructor(
 
     private val dataList = repository.getProductList()
 
+    init {
+        repository.cleanData()
+    }
+
     val queryList: LiveData<List<Product>> = getSavedFavorite().switchMap {
         repository.getProductList()
     }
