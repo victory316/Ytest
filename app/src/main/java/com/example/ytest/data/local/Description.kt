@@ -15,13 +15,13 @@ data class Description(
 
     @ColumnInfo(name = "imagePath")
     @SerializedName("imagePath")
-    val imagePath: String,
+    val imagePath: String?,
 
     @ColumnInfo(name = "subject")
     @SerializedName("subject")
-    val subject: String,
+    val subject: String?,
 
     @ColumnInfo(name = "price")
     @SerializedName("price")
-    val price: Int
+    val price: Int?
 )

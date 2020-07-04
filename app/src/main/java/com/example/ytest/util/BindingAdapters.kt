@@ -23,7 +23,7 @@ object BindingAdapters {
 
             Glide.with(view.context)
                 .load(imageUrl)
-                .fitCenter()
+                .override(view.width, view.height)
                 .into(view)
         }
     }

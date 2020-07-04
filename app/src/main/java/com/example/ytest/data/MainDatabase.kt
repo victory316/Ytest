@@ -4,11 +4,12 @@ import android.content.Context
 import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
+import androidx.room.TypeConverters
 import com.example.ytest.data.local.Description
 import com.example.ytest.data.local.Product
+import com.example.ytest.util.MyTypeConverter
 
-
-//@Database(entities = [BasicData::class, ProblemData::class], version = 1)
+@TypeConverters(MyTypeConverter::class)
 @Database(entities = [Product::class], version = 1, exportSchema = false)
 abstract class MainDatabase : RoomDatabase() {
 
