@@ -4,23 +4,30 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
+import androidx.fragment.app.Fragment
+import androidx.fragment.app.FragmentManager
+import androidx.fragment.app.FragmentPagerAdapter
+import androidx.lifecycle.Lifecycle
 import androidx.recyclerview.widget.RecyclerView
+import androidx.viewpager2.adapter.FragmentStateAdapter
 import androidx.viewpager2.widget.ViewPager2
 import com.example.ytest.R
 import com.example.ytest.data.local.Product
+import com.example.ytest.view.fragments.FirstTabFragment
+import com.example.ytest.view.fragments.SecondFragment
 
-class ViewPagerAdapter(val items : List<Product>): RecyclerView.Adapter<ViewPagerAdapter.viewHolder>() {
-
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): viewHolder =
-        viewHolder(LayoutInflater.from(parent.context).inflate(R.layout.activity_main, parent, false))
-
-    override fun getItemCount(): Int = items.size
-
-    override fun onBindViewHolder(holder: viewHolder, position: Int) {
-//        holder.viewName.text = views[position]
+class ViewPagerAdapter(fm: FragmentManager?, lifecycle: Lifecycle) : FragmentStateAdapter(fm!!, lifecycle){
+    override fun getItemCount(): Int {
+        return 2
     }
 
-    class viewHolder(view: View): RecyclerView.ViewHolder(view) {
-//        val viewName: TextView = view.findViewById(R.id.view_name)
+    override fun createFragment(position: Int): Fragment {
+
+        return if (position == 0) {
+            FirstTabFragment.newInstance("", "")
+        } else {
+            SecondFragment.newInstance("", "")
+        }
     }
+
 }
