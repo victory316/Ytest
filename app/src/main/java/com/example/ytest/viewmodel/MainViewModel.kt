@@ -2,7 +2,9 @@ package com.example.ytest.viewmodel
 
 import androidx.lifecycle.*
 import com.example.ytest.data.AnswerRepository
+import com.example.ytest.data.local.Favorite
 import com.example.ytest.data.local.Product
+import timber.log.Timber
 
 class MainViewModel internal constructor(
     private val repository: AnswerRepository,
@@ -24,8 +26,8 @@ class MainViewModel internal constructor(
         repository.getProductList()
     }
 
-    fun testQuery() {
-        repository.requestQuery()
+    val favoriteList: LiveData<List<Favorite>> = getSavedFavorite().switchMap {
+        repository.getFavoriteList()
     }
 
     private fun getSavedFavorite(): MutableLiveData<Int> {
@@ -36,8 +38,11 @@ class MainViewModel internal constructor(
         _detailViewId.postValue(id)
     }
 
-    fun toggleFavorite(id : Int) {
+    fun toggleFavorite(product: Product) {
 
+        repository.saveFavorite(product)
+
+        Timber.tag("toggleTest").d("toggle! : $product")
     }
 
     companion object {

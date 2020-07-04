@@ -21,7 +21,7 @@ class ViewPagerAdapter(fm: FragmentManager?, lifecycle: Lifecycle) : FragmentSta
         return if (position == 0) {
             ProductFragment.newInstance()
         } else {
-            FavoriteFragment.newInstance("", "")
+            FavoriteFragment.newInstance()
         }
     }
 

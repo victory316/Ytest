@@ -2,6 +2,7 @@ package com.example.ytest.data
 
 import androidx.lifecycle.LiveData
 import androidx.room.*
+import com.example.ytest.data.local.Favorite
 import com.example.ytest.data.local.Product
 
 @Dao
@@ -18,11 +19,14 @@ interface AnswerDao {
     @Query("SELECT * FROM product")
     fun getProductList() : LiveData<List<Product>>
 
+    @Query("SELECT * FROM favorite")
+    fun getFavoriteList(): LiveData<List<Favorite>>
+
     @Query("UPDATE product SET favorite_status = :isExists")
     fun updateFavoriteStatus(isExists: Boolean)
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    fun saveFavorite(favorite: Product)
+    fun saveFavorite(favorite: Favorite)
 
     @Query("DELETE FROM favorite WHERE id == :id")
     fun deleteFavorite(id: Int)

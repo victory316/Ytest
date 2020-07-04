@@ -1,6 +1,7 @@
 package com.example.ytest.data
 
 import androidx.lifecycle.LiveData
+import com.example.ytest.data.local.Favorite
 import com.example.ytest.data.local.Product
 import com.example.ytest.data.remote.BasicClient
 import io.reactivex.Observable
@@ -12,29 +13,10 @@ import timber.log.Timber
 class AnswerRepository private constructor(private val dao: AnswerDao) {
     private var disposable: Disposable? = null
     private var transactionDisposable: Disposable? = null
+    private var saveDisposable: Disposable? = null
     private var pageCount = 1
 
     fun requestQuery() {
-//        Timber.tag("queryTest").d("requesting")
-//
-//        disposable = BasicClient().getApi()
-//            .loadPlace(2)
-//            .observeOn(Schedulers.computation())
-//            .subscribeOn(Schedulers.io())
-//            .subscribe(
-//                { result ->
-//
-//                    Timber.tag("queryTest").d("result : $result")
-//
-//                    for (data in result.data.product) {
-//                        Timber.tag("test").d("$data")
-//                    }
-//
-////                        repository.addData(result.problems)
-//
-//                }, {
-//                    it.printStackTrace()
-//                })
     }
 
     fun getProductList(): LiveData<List<Product>> {
@@ -66,14 +48,30 @@ class AnswerRepository private constructor(private val dao: AnswerDao) {
         return dao.getProductList()
     }
 
+    fun getFavoriteList(): LiveData<List<Favorite>> {
+        return dao.getFavoriteList()
+    }
+
     fun changeFavoriteStatus(favorite: Boolean) {
 
     }
 
     fun saveFavorite(product: Product) {
+        Favorite(
+            product.id, product.name, product.thumbnail, product.description, product.rate,
+            System.currentTimeMillis()
+        ).let { favorite ->
 
+            saveDisposable = Observable
+                .just(true)
+                .observeOn(Schedulers.io())
+                .subscribeOn(Schedulers.io())
+                .subscribe {
+                    dao.saveFavorite(favorite)
+                    saveDisposable?.dispose()
+                }
+        }
     }
-
 
     fun cleanData() {
 

@@ -41,13 +41,6 @@ class ProductFragment : Fragment() {
         return binding.root
     }
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-
-        mainViewModel.testQuery()
-
-        super.onCreate(savedInstanceState)
-    }
-
     private fun setupViewModel(binding: FragmentFirstTabBinding) {
         binding.apply {
             viewModel = mainViewModel

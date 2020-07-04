@@ -5,12 +5,13 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
+import com.example.ytest.data.local.Favorite
 import com.example.ytest.data.local.Product
 import com.example.ytest.databinding.BasicDataItemBinding
 import com.example.ytest.viewmodel.MainViewModel
 
-class ProductAdapter(private val answersViewModel: MainViewModel) :
-    ListAdapter<Product, RecyclerView.ViewHolder>(AccountDiffCallback()) {
+class FavoriteAdapter(private val answersViewModel: MainViewModel) :
+    ListAdapter<Favorite, RecyclerView.ViewHolder>(AccountDiffCallback()) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
         val binding = BasicDataItemBinding.inflate(
@@ -34,7 +35,7 @@ class ProductAdapter(private val answersViewModel: MainViewModel) :
         private val answersViewModel : MainViewModel
     ) : RecyclerView.ViewHolder(binding.root) {
 
-        fun bind(item: Product) {
+        fun bind(item: Favorite) {
 
             binding.apply {
                 viewModel = answersViewModel
@@ -44,8 +45,9 @@ class ProductAdapter(private val answersViewModel: MainViewModel) :
                 scoreText = item.rate.toString()
                 favoriteSwitch.isChecked = false
 
+                // TODO 스위치 선택시 데이터 삭제 및 데이터 컬럼 업데이트
                 favoriteSwitch.setOnCheckedChangeListener { _, _ ->
-                    answersViewModel.toggleFavorite(item)
+//                    answersViewModel.toggleFavorite(item)
                 }
 
                 root.setOnClickListener {
@@ -57,12 +59,12 @@ class ProductAdapter(private val answersViewModel: MainViewModel) :
         }
     }
 
-    private class AccountDiffCallback : DiffUtil.ItemCallback<Product>() {
-        override fun areItemsTheSame(oldItem: Product, newItem: Product): Boolean {
+    private class AccountDiffCallback : DiffUtil.ItemCallback<Favorite>() {
+        override fun areItemsTheSame(oldItem: Favorite, newItem: Favorite): Boolean {
             return oldItem.id == newItem.id
         }
 
-        override fun areContentsTheSame(oldItem: Product, newItem: Product): Boolean {
+        override fun areContentsTheSame(oldItem: Favorite, newItem: Favorite): Boolean {
             return oldItem == newItem
         }
     }
