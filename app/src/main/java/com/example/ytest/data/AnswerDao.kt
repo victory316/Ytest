@@ -18,6 +18,15 @@ interface AnswerDao {
     @Query("SELECT * FROM product")
     fun getProductList() : LiveData<List<Product>>
 
+    @Query("UPDATE product SET favorite_status = :isExists")
+    fun updateFavoriteStatus(isExists: Boolean)
+
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    fun saveFavorite(favorite: Product)
+
+    @Query("DELETE FROM favorite WHERE id == :id")
+    fun deleteFavorite(id: Int)
+
     @Query("DELETE FROM product")
     fun deleteAllList()
 

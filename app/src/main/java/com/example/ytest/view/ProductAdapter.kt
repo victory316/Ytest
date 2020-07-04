@@ -2,8 +2,6 @@ package com.example.ytest.view
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
-import androidx.core.widget.addTextChangedListener
-import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
@@ -44,7 +42,11 @@ class ProductAdapter(private val answersViewModel: MainViewModel) :
                 primaryText = item.name
                 secondaryText = item.description.price.toString()
                 scoreText = item.rate.toString()
-                favoriteSwitch.isChecked = true
+                favoriteSwitch.isChecked = false
+
+                favoriteSwitch.setOnCheckedChangeListener { _, _ ->
+                    answersViewModel.toggleFavorite(item.id)
+                }
 
                 root.setOnClickListener {
                     answersViewModel.showDetailView(item.id)

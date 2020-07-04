@@ -36,6 +36,10 @@ class MainViewModel internal constructor(
         _detailViewId.postValue(id)
     }
 
+    fun toggleFavorite(id : Int) {
+
+    }
+
     companion object {
         private const val NO_FAVORITE = -1
         private const val FAVORITE_SAVED_STATE_KEY = "FAVORITE_SAVED_STATE_KEY"

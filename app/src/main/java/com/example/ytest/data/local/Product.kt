@@ -27,5 +27,8 @@ data class Product(
 
     @ColumnInfo(name = "rate")
     @SerializedName("rate")
-    val rate: Double
+    val rate: Double,
+
+    @ColumnInfo(name = "favorite_status")
+    val favoriteStatus: Boolean
 )

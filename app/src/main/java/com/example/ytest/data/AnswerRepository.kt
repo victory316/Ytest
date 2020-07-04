@@ -66,9 +66,14 @@ class AnswerRepository private constructor(private val dao: AnswerDao) {
         return dao.getProductList()
     }
 
-    fun addProductList(list: List<Product>) {
-        dao.addProductResult(list)
+    fun changeFavoriteStatus(favorite: Boolean) {
+
     }
+
+    fun saveFavorite(product: Product) {
+
+    }
+
 
     fun cleanData() {
 
