@@ -43,6 +43,7 @@ class ProductAdapter(private val answersViewModel: MainViewModel) :
                 imageUrl = item.thumbnail
                 primaryText = item.name
                 secondaryText = item.description.price.toString()
+                scoreText = item.rate.toString()
 
                 executePendingBindings()
             }
