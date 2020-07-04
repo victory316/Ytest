@@ -8,7 +8,7 @@ import com.example.ytest.data.local.Product
 interface AnswerDao {
 
     @Transaction
-    fun addProductResult(list: List<Product>) {
+    open fun addProductResult(list: List<Product>) {
         addProductList(list)
     }
 

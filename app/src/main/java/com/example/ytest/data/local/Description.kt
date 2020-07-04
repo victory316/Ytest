@@ -5,7 +5,7 @@ import androidx.room.Entity
 import androidx.room.PrimaryKey
 import com.google.gson.annotations.SerializedName
 
-@Entity(tableName = "description")
+//@Entity(tableName = "description")
 data class Description(
 
     @PrimaryKey
