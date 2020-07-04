@@ -5,7 +5,7 @@ import retrofit2.Retrofit
 import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory
 import retrofit2.converter.gson.GsonConverterFactory
 
-private const val BASE_URL = "https://www.gccompany.co.kr/App/json/2.json"
+private const val BASE_URL = "https://www.gccompany.co.kr/App"
 
 class BasicClient {
     fun getApi(): BasicApi = Retrofit.Builder()

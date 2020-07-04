@@ -22,13 +22,11 @@
 
             <com.google.android.material.tabs.TabItem
                 android:layout_width="0dp"
-                android:layout_height="0dp"
-                android:text="첫번째 탭" />
+                android:layout_height="0dp" />
 
             <com.google.android.material.tabs.TabItem
                 android:layout_width="0dp"
-                android:layout_height="0dp"
-                android:text="두번째 탭" />
+                android:layout_height="0dp" />
 
         </com.google.android.material.tabs.TabLayout>
 

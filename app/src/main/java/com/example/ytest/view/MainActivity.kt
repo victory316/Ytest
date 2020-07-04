@@ -7,6 +7,10 @@ import com.example.ytest.R
 import com.example.ytest.databinding.ActivityMainBinding
 import com.google.android.material.tabs.TabLayoutMediator
 
+/**
+ * 최초로 실행되는 기본 Activity
+ */
+
 class MainActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityMainBinding
@@ -24,11 +28,9 @@ class MainActivity : AppCompatActivity() {
     private fun setupUi() {
         with(binding.mainViewPager) {
             adapter = ViewPagerAdapter(supportFragmentManager, lifecycle)
-//            binding.tabs.setupWithViewPager(this)
         }
-//        binding.tabs.setupWithViewPager(bind.)
 
-        val tabText = listOf("첫번째", "두번째")
+        val tabText = listOf("전체", "즐겨찾기")
 
         TabLayoutMediator(binding.tabs, binding.mainViewPager) { tab, position ->
             tab.text = tabText[position]
