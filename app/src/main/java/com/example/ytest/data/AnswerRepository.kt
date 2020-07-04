@@ -12,8 +12,10 @@ class AnswerRepository private constructor(private val dao: AnswerDao) {
     private var disposable : Disposable? = null
 
     fun requestQuery() {
+        Timber.tag("queryTest").d("requesting")
+
         disposable = BasicClient().getApi()
-            .testQuery()
+            .loadPlace(2)
             .observeOn(Schedulers.computation())
             .subscribeOn(Schedulers.io())
             .subscribe(

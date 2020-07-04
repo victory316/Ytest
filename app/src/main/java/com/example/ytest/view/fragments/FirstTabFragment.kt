@@ -11,6 +11,7 @@ import com.example.ytest.R
 import com.example.ytest.databinding.FragmentFirstTabBinding
 import com.example.ytest.util.InjectorUtils
 import com.example.ytest.viewmodel.MainViewModel
+import timber.log.Timber
 
 /**
  * 첫번째 탭의 UI를 구성하는 FirstTabFragment
@@ -32,9 +33,17 @@ class FirstTabFragment : Fragment() {
         setupViewModel(binding)
         setupUi()
 
-        mainViewModel.testQuery()
+        Timber.tag("queryTest").d("onCreateView!")
+
 
         return binding.root
+    }
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+
+        mainViewModel.testQuery()
+
+        super.onCreate(savedInstanceState)
     }
 
     private fun setupViewModel(binding: FragmentFirstTabBinding) {
