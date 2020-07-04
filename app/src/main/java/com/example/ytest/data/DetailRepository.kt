@@ -37,6 +37,12 @@ class DetailRepository private constructor(private val dao: AnswerDao) {
 //                })
     }
 
+    fun requestProductWithId(id: Int): LiveData<Product> {
+        Timber.tag("Test").d("requested data : ${dao.getProductWithId(id)}")
+
+        return dao.getProductWithId(id)
+    }
+
     fun getProductList(): LiveData<List<Product>> {
 
         if (dao.getProductList().value.isNullOrEmpty()) {

@@ -17,8 +17,9 @@ object BindingAdapters {
 
     // 이미지 적용
     @BindingAdapter("setImageWithGlide")
-    @JvmStatic fun setImageWithGlide(view: ImageView, imageUrl: String) {
-        if (imageUrl.isNotEmpty()) {
+    @JvmStatic fun setImageWithGlide(view: ImageView, imageUrl: String?) {
+
+        imageUrl?.let {
             Timber.tag("bindingAdapter").d("setting image")
 
             Glide.with(view.context)

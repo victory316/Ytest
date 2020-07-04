@@ -74,7 +74,7 @@ class ProductFragment : Fragment() {
 
             startActivity(
                 Intent(requireContext(), DetailActivity::class.java)
-                    .putExtra("id", clickedItemId)
+                    .putExtra("requestId", clickedItemId)
             )
         }
     }

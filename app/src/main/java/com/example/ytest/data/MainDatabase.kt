@@ -6,11 +6,12 @@ import androidx.room.Room
 import androidx.room.RoomDatabase
 import androidx.room.TypeConverters
 import com.example.ytest.data.local.Description
+import com.example.ytest.data.local.Favorite
 import com.example.ytest.data.local.Product
 import com.example.ytest.util.MyTypeConverter
 
 @TypeConverters(MyTypeConverter::class)
-@Database(entities = [Product::class], version = 1, exportSchema = false)
+@Database(entities = [Product::class, Favorite::class], version = 1, exportSchema = false)
 abstract class MainDatabase : RoomDatabase() {
 
     //    abstract fun githubDao(): BasicDao

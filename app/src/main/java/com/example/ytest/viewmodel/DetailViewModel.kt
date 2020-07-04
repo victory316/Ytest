@@ -12,17 +12,18 @@ class DetailViewModel internal constructor(
 
     private val dataList = repository.getProductList()
 
-    // 아이템을 고를 경우 해당 아이템의 id를 전달하는 LiveData
-    private val _detailViewId = MutableLiveData<Int>()
-    val detailViewId: LiveData<Int>
-        get() = _detailViewId
-
-    init {
-        repository.cleanData()
-    }
+    private var requestId = 0
 
     val queryList: LiveData<List<Product>> = getSavedFavorite().switchMap {
         repository.getProductList()
+    }
+
+    val requestedData: LiveData<Product> = getSavedFavorite().switchMap {
+        repository.requestProductWithId(requestId)
+    }
+
+    fun setRequestId(id: Int) {
+        requestId = id
     }
 
     fun testQuery() {
@@ -33,8 +34,10 @@ class DetailViewModel internal constructor(
         return savedStateHandle.getLiveData(FAVORITE_SAVED_STATE_KEY, NO_FAVORITE)
     }
 
-    fun showDetailView(id: Int) {
-        _detailViewId.postValue(id)
+    fun requestProduct(id: Int) {
+        getSavedFavorite().switchMap {
+            repository.requestProductWithId(id)
+        }
     }
 
     companion object {

@@ -20,4 +20,7 @@ interface AnswerDao {
 
     @Query("DELETE FROM product")
     fun deleteAllList()
+
+    @Query("SELECT * FROM product WHERE id == :id")
+    fun getProductWithId(id: Int): LiveData<Product>
 }

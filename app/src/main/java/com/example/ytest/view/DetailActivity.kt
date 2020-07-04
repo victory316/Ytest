@@ -4,7 +4,6 @@ import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import androidx.activity.viewModels
-import com.example.ytest.R
 import com.example.ytest.databinding.ActivityDetailBinding
 import com.example.ytest.util.InjectorUtils
 import com.example.ytest.viewmodel.DetailViewModel
@@ -13,7 +12,7 @@ class DetailActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityDetailBinding
 
-    private val detialViewModel: DetailViewModel by viewModels {
+    private val detailViewModel: DetailViewModel by viewModels {
         InjectorUtils.provideDetailViewModel(this)
     }
 
@@ -28,8 +27,11 @@ class DetailActivity : AppCompatActivity() {
     }
 
     private fun setupUi(binding: ActivityDetailBinding, intent: Intent) {
+        detailViewModel.setRequestId(intent.getIntExtra("requestId", 0))
+
         binding.apply {
-            viewModel = detialViewModel
+            viewModel = detailViewModel
+            lifecycleOwner = this@DetailActivity
         }
     }
 }
