@@ -32,6 +32,8 @@ class FirstTabFragment : Fragment() {
         setupViewModel(binding)
         setupUi()
 
+        mainViewModel.testQuery()
+
         return binding.root
     }
 

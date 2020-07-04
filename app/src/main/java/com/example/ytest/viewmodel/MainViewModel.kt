@@ -15,6 +15,10 @@ class MainViewModel internal constructor(
         repository.getProductList()
     }
 
+    fun testQuery() {
+        repository.requestQuery()
+    }
+
     private fun getSavedFavorite(): MutableLiveData<Int> {
         return savedStateHandle.getLiveData(FAVORITE_SAVED_STATE_KEY, NO_FAVORITE)
     }

@@ -10,5 +10,8 @@ data class QueryResult(
     val msg: String,
 
     @SerializedName("data")
-    val data: List<Product>
+    val data: ProductResult,
+
+    @SerializedName("code")
+    val code: Int
 )

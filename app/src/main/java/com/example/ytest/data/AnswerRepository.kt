@@ -11,6 +11,27 @@ import timber.log.Timber
 class AnswerRepository private constructor(private val dao: AnswerDao) {
     private var disposable : Disposable? = null
 
+    fun requestQuery() {
+        disposable = BasicClient().getApi()
+            .testQuery()
+            .observeOn(Schedulers.computation())
+            .subscribeOn(Schedulers.io())
+            .subscribe(
+                { result ->
+
+                    Timber.tag("queryTest").d("result : $result")
+
+                    for (data in result.data.product) {
+                        Timber.tag("test").d("$data")
+                    }
+
+//                        repository.addData(result.problems)
+
+                }, {
+                    it.printStackTrace()
+                })
+    }
+
     fun getProductList(): LiveData<List<Product>> {
 
         if (dao.getProductList().value.isNullOrEmpty()) {
@@ -21,9 +42,9 @@ class AnswerRepository private constructor(private val dao: AnswerDao) {
                 .subscribe(
                     { result ->
 
-                        Timber.tag("test").d("result : $result")
+                        Timber.tag("queryTest").d("result : $result")
 
-                        for (data in result.data) {
+                        for (data in result.data.product) {
                             Timber.tag("test").d("$data")
                         }
 
@@ -32,8 +53,6 @@ class AnswerRepository private constructor(private val dao: AnswerDao) {
                     }, {
                         it.printStackTrace()
                     })
-
-
         }
         return dao.getProductList()
     }

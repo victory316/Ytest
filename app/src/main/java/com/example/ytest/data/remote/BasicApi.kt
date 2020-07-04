@@ -9,6 +9,9 @@ interface BasicApi {
 //    @GET("/pieces")
 //    fun loadList(): Observable<List<BasicData>>
 //
-    @GET("/json/{id}")
+    @GET("json/{id}.json")
     fun loadPlace( @Path("id") id: Int): Observable<QueryResult>
+
+    @GET("json/1.json")
+    fun testQuery(): Observable<QueryResult>
 }
