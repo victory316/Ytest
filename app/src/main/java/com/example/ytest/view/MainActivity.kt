@@ -19,7 +19,6 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
 
         binding = ActivityMainBinding.inflate(layoutInflater)
-
         setupUi()
 
         setContentView(binding.root)
@@ -38,5 +37,6 @@ class MainActivity : AppCompatActivity() {
         }.attach()
 
         binding.mainViewPager.setCurrentItem(0, true)
+
     }
 }

@@ -45,6 +45,10 @@ class ProductAdapter(private val answersViewModel: MainViewModel) :
                 secondaryText = item.description.price.toString()
                 scoreText = item.rate.toString()
 
+                root.setOnClickListener {
+                    answersViewModel.showDetailView(item.id)
+                }
+
                 executePendingBindings()
             }
         }

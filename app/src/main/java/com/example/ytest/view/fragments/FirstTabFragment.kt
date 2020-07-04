@@ -1,5 +1,6 @@
 package com.example.ytest.view.fragments
 
+import android.content.Intent
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -11,6 +12,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.ytest.R
 import com.example.ytest.databinding.FragmentFirstTabBinding
 import com.example.ytest.util.InjectorUtils
+import com.example.ytest.view.DetailActivity
 import com.example.ytest.view.ProductAdapter
 import com.example.ytest.viewmodel.MainViewModel
 import timber.log.Timber
@@ -68,11 +70,16 @@ class FirstTabFragment : Fragment() {
 
             adapter.submitList(it)
         }
-    }
 
-//    private fun subscribeUi(adapter) {
-//
-//    }
+        mainViewModel.detailViewId.observe(viewLifecycleOwner) { clickedItemId ->
+            Timber.tag("Test").d("id : $clickedItemId")
+
+            startActivity(
+                Intent(requireContext(), DetailActivity::class.java)
+                    .putExtra("id", clickedItemId)
+            )
+        }
+    }
 
     companion object {
 
