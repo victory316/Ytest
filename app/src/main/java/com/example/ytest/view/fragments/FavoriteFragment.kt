@@ -5,8 +5,8 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import com.example.ytest.R
-import com.example.ytest.databinding.FragmentDetailBinding
+import android.widget.ArrayAdapter
+import com.example.ytest.databinding.FragmentSecondBinding
 
 // TODO: Rename parameter arguments, choose names that match
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -14,15 +14,14 @@ private const val ARG_PARAM1 = "param1"
 private const val ARG_PARAM2 = "param2"
 
 /**
- * A simple [Fragment] subclass.
- * Use the [DetailFragment.newInstance] factory method to
- * create an instance of this fragment.
+ * 두번째 탭의 UI를 구성하는 FirstTabFragment
  */
-class DetailFragment : Fragment() {
+class FavoriteFragment : Fragment() {
     // TODO: Rename and change types of parameters
     private var param1: String? = null
     private var param2: String? = null
-    private lateinit var binding : FragmentDetailBinding
+
+    private lateinit var binding: FragmentSecondBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -36,10 +35,20 @@ class DetailFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        // Inflate the layout for this fragment
-        binding = FragmentDetailBinding.inflate(inflater, container, false)
+        binding = FragmentSecondBinding.inflate(inflater, container, false)
 
+        setupUi()
+
+        // Inflate the layout for this fragment
         return binding.root
+    }
+
+    private fun setupUi() {
+        val spinnerItem = arrayOf("최근등록 순", "평점 순")
+
+        val adapter = ArrayAdapter<String>(requireContext(), android.R.layout.simple_spinner_item, spinnerItem)
+
+        binding.topSpinner.adapter = adapter
     }
 
     companion object {
@@ -49,12 +58,12 @@ class DetailFragment : Fragment() {
          *
          * @param param1 Parameter 1.
          * @param param2 Parameter 2.
-         * @return A new instance of fragment DetailFragment.
+         * @return A new instance of fragment SecondFragment.
          */
         // TODO: Rename and change types and number of parameters
         @JvmStatic
         fun newInstance(param1: String, param2: String) =
-            DetailFragment().apply {
+            FavoriteFragment().apply {
                 arguments = Bundle().apply {
                     putString(ARG_PARAM1, param1)
                     putString(ARG_PARAM2, param2)

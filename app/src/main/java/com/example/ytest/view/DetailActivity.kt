@@ -24,7 +24,6 @@ class DetailActivity : AppCompatActivity() {
 
         setupUi(binding, intent)
 
-
         setContentView(binding.root)
     }
 

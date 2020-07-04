@@ -9,7 +9,6 @@ import android.view.ViewGroup
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.observe
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.example.ytest.R
 import com.example.ytest.databinding.FragmentFirstTabBinding
 import com.example.ytest.util.InjectorUtils
 import com.example.ytest.view.DetailActivity
@@ -20,7 +19,7 @@ import timber.log.Timber
 /**
  * 첫번째 탭의 UI를 구성하는 FirstTabFragment
  */
-class FirstTabFragment : Fragment() {
+class ProductFragment : Fragment() {
     private lateinit var binding: FragmentFirstTabBinding
 
     private val mainViewModel: MainViewModel by viewModels {
@@ -38,7 +37,6 @@ class FirstTabFragment : Fragment() {
         setupUi()
 
         Timber.tag("queryTest").d("onCreateView!")
-
 
         return binding.root
     }
@@ -85,6 +83,6 @@ class FirstTabFragment : Fragment() {
 
         @JvmStatic
         fun newInstance() =
-            FirstTabFragment()
+            ProductFragment()
     }
 }
