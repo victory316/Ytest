@@ -12,6 +12,7 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:background="#D0FFFFFF"
         tools:context=".view.fragments.FirstTabFragment">
 
         <androidx.recyclerview.widget.RecyclerView

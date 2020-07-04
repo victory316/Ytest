@@ -40,36 +40,11 @@ class ProductAdapter(private val answersViewModel: MainViewModel) :
 
             binding.apply {
                 viewModel = answersViewModel
-                imageUrl = item.imagePath
+                imageUrl = item.thumbnail
                 primaryText = item.name
 
                 executePendingBindings()
             }
-
-
-//            val questionNumberString = "${item.id}번"
-//
-//            binding.apply {
-//                questionNumber = item.id
-//                questionNumberView.text = questionNumberString
-//                imageUrl = item.problemUrl
-//                isSelectable = item.isSelectable
-//                viewModel = answersViewModel
-//
-//                answerEditText.addTextChangedListener {
-//                    if (it.toString().isNotEmpty()) {
-//                        answersViewModel.addAnswers(item.id, it.toString().toInt())
-//                    }
-//                }
-//
-//                answersViewModel.getLifecycleOwner().let{
-//                    answersViewModel.showQuestion.observe(it, Observer { visibility ->
-//                        questionVisibility = visibility
-//                    })
-//                }
-//
-//                executePendingBindings()
-//            }
         }
     }
 

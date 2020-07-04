@@ -19,26 +19,26 @@ data class Product(
 
     @ColumnInfo(name = "thumbnail")
     @SerializedName("thumbnail")
-    val thumbnail: String,
+    val thumbnail: String?,
 //
 //    @ColumnInfo(name = "description")
 //    @SerializedName("description")
 //    val description: Description,
 
     @ColumnInfo(name = "productId")
-    val productId: Int,
+    val productId: Int?,
 
     @ColumnInfo(name = "imagePath")
     @SerializedName("imagePath")
-    val imagePath: String,
+    val imagePath: String?,
 
     @ColumnInfo(name = "subject")
     @SerializedName("subject")
-    val subject: String,
+    val subject: String?,
 
     @ColumnInfo(name = "price")
     @SerializedName("price")
-    val price: Int
+    val price: Int?
 
 //    @ColumnInfo(name = "rate")
 //    @SerializedName("rate")

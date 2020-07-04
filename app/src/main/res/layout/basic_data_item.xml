@@ -39,12 +39,13 @@
             android:id="@+id/product_image"
             android:layout_width="150dp"
             android:layout_height="200dp"
+            setImageWithGlide="@{imageUrl}"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintTop_toTopOf="parent"/>
 
         <TextView
             android:layout_width="0dp"
-            android:layout_height="0dp"
+            android:layout_height="wrap_content"
             android:text="@{primaryText}"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintLeft_toRightOf="@id/product_image"

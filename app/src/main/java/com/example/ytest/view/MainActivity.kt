@@ -36,5 +36,7 @@ class MainActivity : AppCompatActivity() {
             tab.text = tabText[position]
             binding.mainViewPager.setCurrentItem(position, true)
         }.attach()
+
+        binding.mainViewPager.setCurrentItem(0, true)
     }
 }
