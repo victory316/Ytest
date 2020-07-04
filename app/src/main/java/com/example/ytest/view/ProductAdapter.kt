@@ -44,6 +44,7 @@ class ProductAdapter(private val answersViewModel: MainViewModel) :
                 primaryText = item.name
                 secondaryText = item.description.price.toString()
                 scoreText = item.rate.toString()
+                favoriteSwitch.isChecked = true
 
                 root.setOnClickListener {
                     answersViewModel.showDetailView(item.id)

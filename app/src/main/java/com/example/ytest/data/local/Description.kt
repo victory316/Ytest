@@ -1,18 +1,9 @@
 package com.example.ytest.data.local
 
 import androidx.room.ColumnInfo
-import androidx.room.Entity
-import androidx.room.PrimaryKey
 import com.google.gson.annotations.SerializedName
 
-//@Entity(tableName = "description")
 data class Description(
-
-    @PrimaryKey
-    @ColumnInfo(name = "id")
-    @SerializedName("id")
-    val id: Int,
-
     @ColumnInfo(name = "imagePath")
     @SerializedName("imagePath")
     val imagePath: String?,

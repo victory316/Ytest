@@ -20,7 +20,6 @@ class DetailActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
 
         binding = ActivityDetailBinding.inflate(layoutInflater)
-
         setupUi(binding, intent)
 
         setContentView(binding.root)
