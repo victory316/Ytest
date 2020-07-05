@@ -18,10 +18,6 @@ class MainViewModel internal constructor(
     val detailViewId: LiveData<Int>
         get() = _detailViewId
 
-    init {
-        repository.cleanData()
-    }
-
     val queryList: LiveData<List<Product>> = getSavedFavorite().switchMap {
         repository.getProductList()
     }
@@ -53,6 +49,10 @@ class MainViewModel internal constructor(
 
     fun deleteFavorite(id: Int) {
         repository.deleteFavorite(id)
+    }
+
+    fun cleanData() {
+        repository.cleanData()
     }
 
     companion object {

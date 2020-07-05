@@ -15,8 +15,6 @@ class DetailRepository private constructor(private val dao: AnswerDao) {
     private var pageCount = 1
 
     fun requestProductWithId(id: Int): LiveData<Product> {
-        Timber.tag("Test").d("requested data : ${dao.getProductWithId(id).value?.favoriteStatus}")
-
         return dao.getProductWithId(id)
     }
 
@@ -46,18 +44,6 @@ class DetailRepository private constructor(private val dao: AnswerDao) {
 
     fun deleteFavorite(id: Int) {
         dao.deleteFavorite(id)
-    }
-
-    fun cleanData() {
-        transactionDisposable = Observable
-            .just(true)
-            .observeOn(Schedulers.io())
-            .subscribeOn(Schedulers.io())
-            .subscribe {
-                dao.deleteAllList()
-
-                transactionDisposable?.dispose()
-            }
     }
 
     companion object {

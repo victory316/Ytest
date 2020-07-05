@@ -8,14 +8,7 @@ class DetailViewModel internal constructor(
     private val repository: DetailRepository,
     private val savedStateHandle: SavedStateHandle
 ) : ViewModel() {
-
-    private val dataList = repository.getProductList()
-
     private var requestId = 0
-
-    val queryList: LiveData<List<Product>> = getSavedFavorite().switchMap {
-        repository.getProductList()
-    }
 
     val requestedData: LiveData<Product> = getSavedFavorite().switchMap {
         repository.requestProductWithId(requestId)
@@ -31,12 +24,6 @@ class DetailViewModel internal constructor(
 
     private fun getSavedFavorite(): MutableLiveData<Int> {
         return savedStateHandle.getLiveData(FAVORITE_SAVED_STATE_KEY, NO_FAVORITE)
-    }
-
-    fun requestProduct(id: Int) {
-        getSavedFavorite().switchMap {
-            repository.requestProductWithId(id)
-        }
     }
 
     companion object {

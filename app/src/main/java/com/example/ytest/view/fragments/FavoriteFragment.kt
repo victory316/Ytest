@@ -74,6 +74,11 @@ class FavoriteFragment : Fragment() {
         }
     }
 
+    override fun onDestroy() {
+        mainViewModel.cleanData()
+        super.onDestroy()
+    }
+
     companion object {
         @JvmStatic
         fun newInstance() = FavoriteFragment()
