@@ -53,12 +53,11 @@ class FavoriteAdapter(private val answersViewModel: MainViewModel) :
                 secondaryText = item.description.price.toString()
                 scoreText = item.rate.toString()
                 addedTimeString = formatTimeStamp(item.savedTime)
-                favoriteSwitch.isChecked = true
 
                 favoriteSwitch.setOnCheckedChangeListener { buttonView, isChecked ->
-                    if (isChecked) answersViewModel.deleteFavorite(item.id)
+                    if (!isChecked) answersViewModel.deleteFavorite(item.id)
                 }
-                
+
                 root.setOnClickListener {
                     answersViewModel.showDetailView(item.id)
                 }
@@ -68,8 +67,6 @@ class FavoriteAdapter(private val answersViewModel: MainViewModel) :
         }
 
     }
-
-
 
     private class AccountDiffCallback : DiffUtil.ItemCallback<Favorite>() {
         override fun areItemsTheSame(oldItem: Favorite, newItem: Favorite): Boolean {

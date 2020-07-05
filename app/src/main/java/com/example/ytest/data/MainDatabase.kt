@@ -13,8 +13,6 @@ import com.example.ytest.util.MyTypeConverter
 @TypeConverters(MyTypeConverter::class)
 @Database(entities = [Product::class, Favorite::class], version = 1, exportSchema = false)
 abstract class MainDatabase : RoomDatabase() {
-
-    //    abstract fun githubDao(): BasicDao
     abstract fun answerDao(): AnswerDao
 
     companion object {

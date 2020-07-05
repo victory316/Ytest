@@ -17,9 +17,6 @@ class MainRepository private constructor(private val dao: AnswerDao) {
     private var deleteDisposable: Disposable? = null
     private var pageCount = 1
 
-    fun requestQuery() {
-    }
-
     fun getProductList(): LiveData<List<Product>> {
 
         if (dao.getProductList().value.isNullOrEmpty()) {
@@ -73,7 +70,9 @@ class MainRepository private constructor(private val dao: AnswerDao) {
                 .observeOn(Schedulers.io())
                 .subscribeOn(Schedulers.io())
                 .subscribe {
+                    dao.updateFavoriteStatus(favorite.id, true)
                     dao.saveFavorite(favorite)
+
                     saveDisposable?.dispose()
                 }
         }
@@ -86,6 +85,7 @@ class MainRepository private constructor(private val dao: AnswerDao) {
             .subscribeOn(Schedulers.io())
             .subscribe {
                 dao.deleteFavorite(id)
+                dao.updateFavoriteStatus(id, false)
 
                 deleteDisposable?.dispose()
             }
