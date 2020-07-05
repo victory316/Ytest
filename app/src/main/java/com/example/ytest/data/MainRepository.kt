@@ -92,7 +92,6 @@ class MainRepository private constructor(private val dao: AnswerDao) {
     }
 
     fun cleanData() {
-
         transactionDisposable = Observable
             .just(true)
             .observeOn(Schedulers.io())
@@ -101,19 +100,6 @@ class MainRepository private constructor(private val dao: AnswerDao) {
                 dao.deleteAllList()
 
                 transactionDisposable?.dispose()
-            }
-    }
-
-    fun checkFavoriteExists(id: Int) {
-
-        transactionDisposable = Observable
-            .just(true)
-            .observeOn(Schedulers.io())
-            .subscribeOn(Schedulers.io())
-            .subscribe {
-                dao.updateFavoriteStatus(id, dao.checkFavoriteExists(id) == 1)
-
-                deleteDisposable?.dispose()
             }
     }
 

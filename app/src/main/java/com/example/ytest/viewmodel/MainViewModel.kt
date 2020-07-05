@@ -30,13 +30,6 @@ class MainViewModel internal constructor(
         return savedStateHandle.getLiveData(FAVORITE_SAVED_STATE_KEY, NO_FAVORITE)
     }
 
-    fun updateFavoriteStatus() {
-        repository.getProductList().value?.forEach {
-            Timber.tag("test").d("checking : $it")
-            repository.checkFavoriteExists(it.id)
-        }
-    }
-
     fun showDetailView(id: Int) {
         _detailViewId.postValue(id)
     }

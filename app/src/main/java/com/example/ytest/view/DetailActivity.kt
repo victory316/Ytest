@@ -26,11 +26,19 @@ class DetailActivity : AppCompatActivity() {
     }
 
     private fun setupUi(binding: ActivityDetailBinding, intent: Intent) {
+        detailViewModel.setRequestId(intent.getIntExtra("requestId", 0))
+
         binding.apply {
             viewModel = detailViewModel
+            favoriteSwitch.setOnCheckedChangeListener { buttonView, isChecked ->
+                if (isChecked) {
+                    detailViewModel.toggleFavorite()
+                } else {
+                    detailViewModel.deleteFavorite()
+                }
+            }
             lifecycleOwner = this@DetailActivity
         }
 
-        detailViewModel.setRequestId(intent.getIntExtra("requestId", 0))
     }
 }

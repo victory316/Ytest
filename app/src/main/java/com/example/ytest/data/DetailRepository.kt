@@ -1,6 +1,7 @@
 package com.example.ytest.data
 
 import androidx.lifecycle.LiveData
+import com.example.ytest.data.local.Favorite
 import com.example.ytest.data.local.Product
 import com.example.ytest.data.remote.BasicClient
 import io.reactivex.Observable
@@ -12,6 +13,8 @@ import timber.log.Timber
 class DetailRepository private constructor(private val dao: AnswerDao) {
     private var disposable: Disposable? = null
     private var transactionDisposable: Disposable? = null
+    private var saveDisposable: Disposable? = null
+    private var deleteDisposable: Disposable? = null
     private var pageCount = 1
 
     fun requestProductWithId(id: Int): LiveData<Product> {
@@ -42,10 +45,37 @@ class DetailRepository private constructor(private val dao: AnswerDao) {
         return dao.getProductList()
     }
 
-    fun deleteFavorite(id: Int) {
-        dao.deleteFavorite(id)
+    fun saveFavorite(product: Product) {
+        Favorite(
+            product.id, product.name, product.thumbnail, product.description, product.rate,
+            System.currentTimeMillis()
+        ).let { favorite ->
+
+            saveDisposable = Observable
+                .just(true)
+                .observeOn(Schedulers.io())
+                .subscribeOn(Schedulers.io())
+                .subscribe {
+                    dao.updateFavoriteStatus(favorite.id, true)
+                    dao.saveFavorite(favorite)
+
+                    saveDisposable?.dispose()
+                }
+        }
     }
 
+    fun deleteFavorite(id: Int) {
+        deleteDisposable = Observable
+            .just(true)
+            .observeOn(Schedulers.io())
+            .subscribeOn(Schedulers.io())
+            .subscribe {
+                dao.deleteFavorite(id)
+                dao.updateFavoriteStatus(id, false)
+
+                deleteDisposable?.dispose()
+            }
+    }
     companion object {
 
         @Volatile

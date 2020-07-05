@@ -24,5 +24,4 @@ class ViewPagerAdapter(fm: FragmentManager?, lifecycle: Lifecycle) : FragmentSta
             FavoriteFragment.newInstance()
         }
     }
-
 }

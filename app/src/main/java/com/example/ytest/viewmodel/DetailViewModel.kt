@@ -3,6 +3,7 @@ package com.example.ytest.viewmodel
 import androidx.lifecycle.*
 import com.example.ytest.data.DetailRepository
 import com.example.ytest.data.local.Product
+import timber.log.Timber
 
 class DetailViewModel internal constructor(
     private val repository: DetailRepository,
@@ -18,8 +19,19 @@ class DetailViewModel internal constructor(
         requestId = id
     }
 
-    fun deleteFavorite(id: Int) {
-        repository
+    fun deleteFavorite() {
+        requestedData.value?.let {
+            Timber.tag("toggleTest").d("deleting! : ${it.id}")
+            repository.deleteFavorite(it.id)
+        }
+
+    }
+
+    fun toggleFavorite() {
+        requestedData.value?.let {
+            repository.saveFavorite(it)
+            Timber.tag("toggleTest").d("toggle! : $it")
+        }
     }
 
     private fun getSavedFavorite(): MutableLiveData<Int> {
