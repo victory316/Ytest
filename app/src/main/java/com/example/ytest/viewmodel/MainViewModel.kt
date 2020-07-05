@@ -1,6 +1,10 @@
 package com.example.ytest.viewmodel
 
 import androidx.lifecycle.*
+import androidx.paging.DataSource
+import androidx.paging.LivePagedListBuilder
+import androidx.paging.PagedList
+import com.example.ytest.data.DataBoundaryCallback
 import com.example.ytest.data.MainRepository
 import com.example.ytest.data.local.Favorite
 import com.example.ytest.data.local.Product
@@ -18,6 +22,33 @@ class MainViewModel internal constructor(
     val detailViewId: LiveData<Int>
         get() = _detailViewId
 
+    private var pageCount = 1
+
+    private var factory: DataSource.Factory<Int, Product> =
+        repository.getAllPaged()
+
+    private var pagedList: LiveData<PagedList<Product>>
+
+    init {
+
+        val config = PagedList.Config.Builder()
+            .setInitialLoadSizeHint(10)
+            .setPageSize(10)
+            .setPrefetchDistance(5)
+            .build()
+
+        val boundaryCallback =
+            DataBoundaryCallback("", this)
+
+        val pagedListBuilder: LivePagedListBuilder<Int, Product> =
+            LivePagedListBuilder<Int, Product>(
+                factory,
+                config
+            ).setBoundaryCallback(boundaryCallback)
+
+        pagedList = pagedListBuilder.build()
+    }
+
     val queryList: LiveData<List<Product>> = getSavedFavorite().switchMap {
         repository.getProductList()
     }
@@ -25,6 +56,8 @@ class MainViewModel internal constructor(
     val favoriteList: LiveData<List<Favorite>> = getSavedFavorite().switchMap {
         repository.getFavoriteList()
     }
+
+    fun getPagedList() = pagedList
 
     private fun getSavedFavorite(): MutableLiveData<Int> {
         return savedStateHandle.getLiveData(FAVORITE_SAVED_STATE_KEY, NO_FAVORITE)

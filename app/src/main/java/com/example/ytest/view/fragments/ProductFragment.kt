@@ -56,7 +56,7 @@ class ProductFragment : Fragment() {
         binding.allList.adapter = adapter
         binding.allList.layoutManager = layoutManager
 
-        mainViewModel.queryList.observe(viewLifecycleOwner) {
+        mainViewModel.getPagedList().observe(viewLifecycleOwner) {
             Timber.tag("listTest").d("submitting : $it")
 
             adapter.submitList(it)

@@ -1,10 +1,12 @@
 package com.example.ytest.data
 
 import androidx.lifecycle.LiveData
+import androidx.paging.DataSource
 import com.example.ytest.data.local.Favorite
 import com.example.ytest.data.local.Product
 import com.example.ytest.data.remote.BasicClient
 import io.reactivex.Observable
+import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.Disposable
 import io.reactivex.schedulers.Schedulers
 import timber.log.Timber
@@ -16,6 +18,43 @@ class MainRepository private constructor(private val dao: AnswerDao) {
     private var saveDisposable: Disposable? = null
     private var deleteDisposable: Disposable? = null
     private var pageCount = 1
+
+    fun getAllPaged(): DataSource.Factory<Int, Product> {
+        pageCount++
+
+        dao.getProductList().value?.let { list ->
+            if (list.isNotEmpty()) {
+                return dao.getAllPaged()
+            } else {
+
+                // Gihub search query로 찾고자 하는 유저를 검색
+                disposable = BasicClient()
+                    .getApi().loadPlace(pageCount)
+                    .observeOn(AndroidSchedulers.mainThread())
+                    .subscribeOn(Schedulers.io())
+                    .subscribe({ result ->
+                        dao.addProductResult(result.data.product)
+
+                        for (data in result.data.product) {
+                            Timber.tag("test").d("$data")
+                            Timber.tag("test").d("exists? : ${dao.checkFavoriteExists(data.id)}")
+
+                            dao.updateFavoriteStatus(
+                                data.id,
+                                dao.checkFavoriteExists(data.id) == 1
+                            )
+                        }
+
+                    }, { error ->
+                        run {
+                            error.printStackTrace()
+                        }
+                    })
+            }
+        }
+
+        return dao.getAllPaged()
+    }
 
     fun getProductList(): LiveData<List<Product>> {
 
