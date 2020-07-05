@@ -6,6 +6,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.observe
@@ -43,25 +44,18 @@ class FavoriteFragment : Fragment() {
 
     private fun setupUi() {
 
-        val spinnerItem = arrayOf("최근등록 순", "평점 순")
-        val spinnerAdapter = ArrayAdapter<String>(
-            requireContext(),
-            android.R.layout.simple_spinner_item,
-            spinnerItem
-        )
-
-        binding.topSpinner.adapter = spinnerAdapter
-
         val layoutManager = LinearLayoutManager(requireActivity())
         val adapter = FavoriteAdapter(mainViewModel)
 
         binding.allList.adapter = adapter
         binding.allList.layoutManager = layoutManager
 
-        mainViewModel.favoriteList.observe(viewLifecycleOwner) {
-            Timber.tag("favoriteTest").d("submitting : $it")
+        mainViewModel.favoriteList.observe(viewLifecycleOwner) { favoriteList ->
+            Timber.tag("favoriteTest").d("submitting : $favoriteList")
 
-            adapter.submitList(it)
+            favoriteList.sortedBy { favorite -> favorite.savedTime }.let {
+                adapter.submitList(it.asReversed())
+            }
         }
 
         mainViewModel.detailViewId.observe(viewLifecycleOwner) { clickedItemId ->
@@ -71,6 +65,69 @@ class FavoriteFragment : Fragment() {
                 Intent(requireContext(), DetailActivity::class.java)
                     .putExtra("requestId", clickedItemId)
             )
+        }
+
+        val spinnerItem = arrayOf("최근등록 순", "평점 순")
+        val spinnerAdapter = ArrayAdapter<String>(
+            requireContext(),
+            android.R.layout.simple_spinner_item,
+            spinnerItem
+        )
+
+        binding.topSpinner.adapter = spinnerAdapter
+
+        binding.topSpinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
+            override fun onNothingSelected(parent: AdapterView<*>?) {
+            }
+
+            override fun onItemSelected(
+                parent: AdapterView<*>?,
+                view: View?,
+                position: Int,
+                id: Long
+            ) {
+                when (position) {
+                    0 -> {
+                        for (data in adapter.currentList) {
+                            Timber.d("current list data : $data")
+                        }
+
+                        adapter.currentList.sortedBy { favorite -> favorite.savedTime }.let {
+                            adapter.submitList(it.asReversed())
+                        }
+
+
+                        for (data in adapter.currentList) {
+                            Timber.d("after sorted list data : $data")
+                        }
+//                    adapter.notifyDataSetChanged()
+                        (binding.allList.adapter as FavoriteAdapter).notifyDataSetChanged()
+//                        adapter.submit
+
+                    }
+                    1 -> {
+
+                        for (data in adapter.currentList) {
+                            Timber.d("current list data : $data")
+                        }
+
+                        (binding.allList.adapter as FavoriteAdapter).currentList.sortedBy { favorite -> favorite.rate }
+                            .let {
+                                adapter.submitList(it.asReversed())
+                            }
+                        Timber.tag("sortTest").d("sorting with rate")
+
+
+                        for (data in adapter.currentList) {
+                            Timber.d("after sorted list data : $data")
+                        }
+
+                        (binding.allList.adapter as FavoriteAdapter).notifyDataSetChanged()
+//                    adapter.notifyDataSetChanged()
+                    }
+                }
+            }
+
         }
     }
 
