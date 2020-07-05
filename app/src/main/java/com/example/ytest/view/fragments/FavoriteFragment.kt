@@ -70,7 +70,7 @@ class FavoriteFragment : Fragment() {
         val spinnerItem = arrayOf("최근등록 순", "평점 순")
         val spinnerAdapter = ArrayAdapter<String>(
             requireContext(),
-            android.R.layout.simple_spinner_item,
+            android.R.layout.simple_spinner_dropdown_item,
             spinnerItem
         )
 
