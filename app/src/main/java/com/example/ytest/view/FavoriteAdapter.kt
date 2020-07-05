@@ -6,15 +6,16 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.example.ytest.data.local.Favorite
-import com.example.ytest.data.local.Product
-import com.example.ytest.databinding.BasicDataItemBinding
+import com.example.ytest.databinding.FavoriteDataItemBinding
 import com.example.ytest.viewmodel.MainViewModel
+import java.text.SimpleDateFormat
+import java.util.*
 
 class FavoriteAdapter(private val answersViewModel: MainViewModel) :
     ListAdapter<Favorite, RecyclerView.ViewHolder>(AccountDiffCallback()) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
-        val binding = BasicDataItemBinding.inflate(
+        val binding = FavoriteDataItemBinding.inflate(
             LayoutInflater.from(parent.context), parent, false
         )
 
@@ -31,9 +32,17 @@ class FavoriteAdapter(private val answersViewModel: MainViewModel) :
     }
 
     class ResultViewHolder(
-        private val binding: BasicDataItemBinding,
+        private val binding: FavoriteDataItemBinding,
         private val answersViewModel : MainViewModel
     ) : RecyclerView.ViewHolder(binding.root) {
+
+        fun formatTimeStamp(timestamp: Long) : String{
+            val tempCalendar = Calendar.getInstance()
+            tempCalendar.timeInMillis = timestamp
+            val dateFormat = SimpleDateFormat("YYYY-MM-dd hh:mm")
+
+            return dateFormat.format(tempCalendar.time)
+        }
 
         fun bind(item: Favorite) {
 
@@ -43,6 +52,7 @@ class FavoriteAdapter(private val answersViewModel: MainViewModel) :
                 primaryText = item.name
                 secondaryText = item.description.price.toString()
                 scoreText = item.rate.toString()
+                addedTimeString = formatTimeStamp(item.savedTime)
                 favoriteSwitch.isChecked = true
 
                 // TODO 스위치 선택시 데이터 삭제 및 데이터 컬럼 업데이트
@@ -58,7 +68,10 @@ class FavoriteAdapter(private val answersViewModel: MainViewModel) :
                 executePendingBindings()
             }
         }
+
     }
+
+
 
     private class AccountDiffCallback : DiffUtil.ItemCallback<Favorite>() {
         override fun areItemsTheSame(oldItem: Favorite, newItem: Favorite): Boolean {
