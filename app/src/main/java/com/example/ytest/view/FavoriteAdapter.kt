@@ -55,12 +55,10 @@ class FavoriteAdapter(private val answersViewModel: MainViewModel) :
                 addedTimeString = formatTimeStamp(item.savedTime)
                 favoriteSwitch.isChecked = true
 
-                // TODO 스위치 선택시 데이터 삭제 및 데이터 컬럼 업데이트
-                favoriteSwitch.setOnCheckedChangeListener { _, _ ->
-//                    answersViewModel.toggleFavorite(item)
-                    answersViewModel.deleteFavorite(item.id)
+                favoriteSwitch.setOnCheckedChangeListener { buttonView, isChecked ->
+                    if (isChecked) answersViewModel.deleteFavorite(item.id)
                 }
-
+                
                 root.setOnClickListener {
                     answersViewModel.showDetailView(item.id)
                 }
