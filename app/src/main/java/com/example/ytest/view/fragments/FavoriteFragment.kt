@@ -30,6 +30,8 @@ class FavoriteFragment : Fragment() {
         InjectorUtils.provideMainViewModel(this)
     }
 
+    private var currentSpinner = 0
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -53,8 +55,15 @@ class FavoriteFragment : Fragment() {
         mainViewModel.favoriteList.observe(viewLifecycleOwner) { favoriteList ->
             Timber.tag("favoriteTest").d("submitting : $favoriteList")
 
-            favoriteList.sortedBy { favorite -> favorite.savedTime }.let {
-                adapter.submitList(it.asReversed())
+            if (currentSpinner == 0) {
+                favoriteList.sortedBy { favorite -> favorite.savedTime }.let {
+                    adapter.submitList(it.asReversed())
+                }
+            } else {
+                favoriteList.sortedBy { favorite -> favorite.rate }
+                    .let {
+                        adapter.submitList(it.asReversed())
+                    }
             }
         }
 
@@ -86,44 +95,22 @@ class FavoriteFragment : Fragment() {
                 position: Int,
                 id: Long
             ) {
+                currentSpinner = position
+
                 when (position) {
                     0 -> {
-                        for (data in adapter.currentList) {
-                            Timber.d("current list data : $data")
-                        }
-
                         adapter.currentList.sortedBy { favorite -> favorite.savedTime }.let {
                             adapter.submitList(it.asReversed())
                         }
-
-
-                        for (data in adapter.currentList) {
-                            Timber.d("after sorted list data : $data")
-                        }
-//                    adapter.notifyDataSetChanged()
-                        (binding.allList.adapter as FavoriteAdapter).notifyDataSetChanged()
-//                        adapter.submit
-
+//                        (binding.allList.adapter as FavoriteAdapter).notifyDataSetChanged()
                     }
                     1 -> {
-
-                        for (data in adapter.currentList) {
-                            Timber.d("current list data : $data")
-                        }
-
-                        (binding.allList.adapter as FavoriteAdapter).currentList.sortedBy { favorite -> favorite.rate }
+                        adapter.currentList.sortedBy { favorite -> favorite.rate }
                             .let {
                                 adapter.submitList(it.asReversed())
                             }
-                        Timber.tag("sortTest").d("sorting with rate")
 
-
-                        for (data in adapter.currentList) {
-                            Timber.d("after sorted list data : $data")
-                        }
-
-                        (binding.allList.adapter as FavoriteAdapter).notifyDataSetChanged()
-//                    adapter.notifyDataSetChanged()
+//                        (binding.allList.adapter as FavoriteAdapter).notifyDataSetChanged()
                     }
                 }
             }
