@@ -1,13 +1,13 @@
 package com.example.ytest.viewmodel
 
 import androidx.lifecycle.*
-import com.example.ytest.data.AnswerRepository
+import com.example.ytest.data.MainRepository
 import com.example.ytest.data.local.Favorite
 import com.example.ytest.data.local.Product
 import timber.log.Timber
 
 class MainViewModel internal constructor(
-    private val repository: AnswerRepository,
+    private val repository: MainRepository,
     private val savedStateHandle: SavedStateHandle
 ) : ViewModel() {
 
@@ -34,12 +34,18 @@ class MainViewModel internal constructor(
         return savedStateHandle.getLiveData(FAVORITE_SAVED_STATE_KEY, NO_FAVORITE)
     }
 
+    fun updateFavoriteStatus() {
+        repository.getProductList().value?.forEach {
+            Timber.tag("test").d("checking : $it")
+            repository.checkFavoriteExists(it.id)
+        }
+    }
+
     fun showDetailView(id: Int) {
         _detailViewId.postValue(id)
     }
 
     fun toggleFavorite(product: Product) {
-
         repository.saveFavorite(product)
 
         Timber.tag("toggleTest").d("toggle! : $product")

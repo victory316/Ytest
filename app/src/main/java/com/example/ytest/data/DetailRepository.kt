@@ -34,11 +34,6 @@ class DetailRepository private constructor(private val dao: AnswerDao) {
 
                         Timber.tag("queryTest").d("result : $result")
 
-                        for (data in result.data.product) {
-                            Timber.tag("test").d("$data")
-                        }
-
-
                     }, {
                         it.printStackTrace()
                     })

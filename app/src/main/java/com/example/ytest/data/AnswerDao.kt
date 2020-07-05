@@ -22,8 +22,11 @@ interface AnswerDao {
     @Query("SELECT * FROM favorite")
     fun getFavoriteList(): LiveData<List<Favorite>>
 
-    @Query("UPDATE product SET favorite_status = :isExists")
-    fun updateFavoriteStatus(isExists: Boolean)
+    @Query("UPDATE product SET favorite_status = :isExists WHERE id == :id")
+    fun updateFavoriteStatus(id: Int, isExists: Boolean)
+
+    @Query("SELECT count(*) FROM favorite WHERE id == :id")
+    fun checkFavoriteExists(id: Int): Int
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun saveFavorite(favorite: Favorite)

@@ -1,7 +1,6 @@
 package com.example.ytest.viewmodel
 
 import androidx.lifecycle.*
-import com.example.ytest.data.AnswerRepository
 import com.example.ytest.data.DetailRepository
 import com.example.ytest.data.local.Product
 

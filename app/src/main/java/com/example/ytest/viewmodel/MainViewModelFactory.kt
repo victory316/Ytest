@@ -5,10 +5,10 @@ import androidx.lifecycle.AbstractSavedStateViewModelFactory
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.savedstate.SavedStateRegistryOwner
-import com.example.ytest.data.AnswerRepository
+import com.example.ytest.data.MainRepository
 
 class MainViewModelFactory(
-    private val repository: AnswerRepository,
+    private val repository: MainRepository,
     owner: SavedStateRegistryOwner,
     defaultArgs: Bundle? = null
 ) : AbstractSavedStateViewModelFactory(owner, defaultArgs) {

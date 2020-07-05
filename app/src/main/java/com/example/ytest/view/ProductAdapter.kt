@@ -42,6 +42,7 @@ class ProductAdapter(private val answersViewModel: MainViewModel) :
                 primaryText = item.name
                 secondaryText = item.description.price.toString()
                 scoreText = item.rate.toString()
+                isFavorite = item.favoriteStatus
 
                 favoriteSwitch.setOnCheckedChangeListener { _, isChecked ->
                     if (isChecked) {
