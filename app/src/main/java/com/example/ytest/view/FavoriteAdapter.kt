@@ -43,11 +43,12 @@ class FavoriteAdapter(private val answersViewModel: MainViewModel) :
                 primaryText = item.name
                 secondaryText = item.description.price.toString()
                 scoreText = item.rate.toString()
-                favoriteSwitch.isChecked = false
+                favoriteSwitch.isChecked = true
 
                 // TODO 스위치 선택시 데이터 삭제 및 데이터 컬럼 업데이트
                 favoriteSwitch.setOnCheckedChangeListener { _, _ ->
 //                    answersViewModel.toggleFavorite(item)
+                    answersViewModel.deleteFavorite(item.id)
                 }
 
                 root.setOnClickListener {

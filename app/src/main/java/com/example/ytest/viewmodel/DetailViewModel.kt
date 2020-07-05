@@ -26,8 +26,8 @@ class DetailViewModel internal constructor(
         requestId = id
     }
 
-    fun testQuery() {
-        repository.requestQuery()
+    fun deleteFavorite(id: Int) {
+        repository
     }
 
     private fun getSavedFavorite(): MutableLiveData<Int> {

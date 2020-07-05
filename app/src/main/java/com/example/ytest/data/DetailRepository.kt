@@ -14,29 +14,6 @@ class DetailRepository private constructor(private val dao: AnswerDao) {
     private var transactionDisposable: Disposable? = null
     private var pageCount = 1
 
-    fun requestQuery() {
-//        Timber.tag("queryTest").d("requesting")
-//
-//        disposable = BasicClient().getApi()
-//            .loadPlace(2)
-//            .observeOn(Schedulers.computation())
-//            .subscribeOn(Schedulers.io())
-//            .subscribe(
-//                { result ->
-//
-//                    Timber.tag("queryTest").d("result : $result")
-//
-//                    for (data in result.data.product) {
-//                        Timber.tag("test").d("$data")
-//                    }
-//
-////                        repository.addData(result.problems)
-//
-//                }, {
-//                    it.printStackTrace()
-//                })
-    }
-
     fun requestProductWithId(id: Int): LiveData<Product> {
         Timber.tag("Test").d("requested data : ${dao.getProductWithId(id)}")
 
@@ -72,12 +49,11 @@ class DetailRepository private constructor(private val dao: AnswerDao) {
         return dao.getProductList()
     }
 
-    fun addProductList(list: List<Product>) {
-        dao.addProductResult(list)
+    fun deleteFavorite(id: Int) {
+        dao.deleteFavorite(id)
     }
 
     fun cleanData() {
-
         transactionDisposable = Observable
             .just(true)
             .observeOn(Schedulers.io())

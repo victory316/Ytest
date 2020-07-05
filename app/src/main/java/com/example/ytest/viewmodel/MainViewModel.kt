@@ -45,6 +45,10 @@ class MainViewModel internal constructor(
         Timber.tag("toggleTest").d("toggle! : $product")
     }
 
+    fun deleteFavorite(id: Int) {
+        repository.deleteFavorite(id)
+    }
+
     companion object {
         private const val NO_FAVORITE = -1
         private const val FAVORITE_SAVED_STATE_KEY = "FAVORITE_SAVED_STATE_KEY"

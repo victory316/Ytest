@@ -1,5 +1,6 @@
 package com.example.ytest.data
 
+import android.view.Display
 import androidx.lifecycle.LiveData
 import com.example.ytest.data.local.Favorite
 import com.example.ytest.data.local.Product
@@ -14,6 +15,7 @@ class AnswerRepository private constructor(private val dao: AnswerDao) {
     private var disposable: Disposable? = null
     private var transactionDisposable: Disposable? = null
     private var saveDisposable: Disposable? = null
+    private var deleteDisposable: Disposable? = null
     private var pageCount = 1
 
     fun requestQuery() {
@@ -71,6 +73,18 @@ class AnswerRepository private constructor(private val dao: AnswerDao) {
                     saveDisposable?.dispose()
                 }
         }
+    }
+
+    fun deleteFavorite(id: Int) {
+        deleteDisposable = Observable
+            .just(true)
+            .observeOn(Schedulers.io())
+            .subscribeOn(Schedulers.io())
+            .subscribe {
+                dao.deleteFavorite(id)
+
+                deleteDisposable?.dispose()
+            }
     }
 
     fun cleanData() {
