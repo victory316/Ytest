@@ -63,8 +63,8 @@
             android:checked="@{viewModel.requestedData.favoriteStatus}"
             android:thumb="@null"
             android:track="@null"
-            android:scaleX="0.5"
-            android:scaleY="0.5"
+            android:scaleX="0.4"
+            android:scaleY="0.4"
             app:layout_constraintBottom_toBottomOf="@id/title_view"
             app:layout_constraintRight_toRightOf="parent"
             app:layout_constraintTop_toTopOf="@id/title_view" />
