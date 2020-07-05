@@ -35,9 +35,9 @@
             android:layout_height="wrap_content"
             android:layout_margin="20dp"
             android:text="@{viewModel.requestedData.name}"
+            android:textColor="#000000"
             android:textSize="20sp"
             android:textStyle="bold"
-            android:textColor="#000000"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toLeftOf="@id/favorite_switch"
             app:layout_constraintTop_toBottomOf="@id/main_image_view" />
@@ -56,10 +56,15 @@
 
         <Switch
             android:id="@+id/favorite_switch"
-            android:layout_width="50dp"
-            android:layout_height="50dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:layout_margin="20dp"
+            android:button="@drawable/custom_switch"
             android:checked="@{viewModel.requestedData.favoriteStatus}"
+            android:thumb="@null"
+            android:track="@null"
+            android:scaleX="0.5"
+            android:scaleY="0.5"
             app:layout_constraintBottom_toBottomOf="@id/title_view"
             app:layout_constraintRight_toRightOf="parent"
             app:layout_constraintTop_toTopOf="@id/title_view" />
