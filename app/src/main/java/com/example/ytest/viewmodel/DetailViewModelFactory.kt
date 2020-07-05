@@ -5,10 +5,10 @@ import androidx.lifecycle.AbstractSavedStateViewModelFactory
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.savedstate.SavedStateRegistryOwner
-import com.example.ytest.data.MainRepository
+import com.example.ytest.data.DetailRepository
 
-class MainViewModelFactory(
-    private val repository: MainRepository,
+class DetailViewModelFactory(
+    private val repository: DetailRepository,
     owner: SavedStateRegistryOwner,
     defaultArgs: Bundle? = null
 ) : AbstractSavedStateViewModelFactory(owner, defaultArgs) {
@@ -19,6 +19,6 @@ class MainViewModelFactory(
         modelClass: Class<T>,
         handle: SavedStateHandle
     ): T {
-        return MainViewModel(repository, handle) as T
+        return DetailViewModel(repository, handle) as T
     }
 }

@@ -1,9 +1,12 @@
 package com.example.ytest.util
 
 import android.content.Context
+import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
-import com.example.ytest.data.AnswerRepository
+import com.example.ytest.data.MainRepository
+import com.example.ytest.data.DetailRepository
 import com.example.ytest.data.MainDatabase
+import com.example.ytest.viewmodel.DetailViewModelFactory
 import com.example.ytest.viewmodel.MainViewModelFactory
 
 /**
@@ -15,8 +18,14 @@ import com.example.ytest.viewmodel.MainViewModelFactory
  */
 
 object InjectorUtils {
-    private fun getMainRepository(context: Context): AnswerRepository {
-        return AnswerRepository.getInstance(
+    private fun getMainRepository(context: Context): MainRepository {
+        return MainRepository.getInstance(
+            MainDatabase.getInstance(context.applicationContext)!!.answerDao()
+        )
+    }
+
+    private fun getDetailRepository(context: Context): DetailRepository {
+        return DetailRepository.getInstance(
             MainDatabase.getInstance(context.applicationContext)!!.answerDao()
         )
     }
@@ -24,5 +33,10 @@ object InjectorUtils {
     fun provideMainViewModel(fragment: Fragment): MainViewModelFactory {
         val repository = getMainRepository(fragment.requireContext())
         return MainViewModelFactory(repository, fragment)
+    }
+
+    fun provideDetailViewModel(activity: AppCompatActivity): DetailViewModelFactory {
+        val repository = getDetailRepository(activity)
+        return DetailViewModelFactory(repository, activity)
     }
 }

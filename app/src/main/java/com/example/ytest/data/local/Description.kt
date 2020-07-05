@@ -1,0 +1,18 @@
+package com.example.ytest.data.local
+
+import androidx.room.ColumnInfo
+import com.google.gson.annotations.SerializedName
+
+data class Description(
+    @ColumnInfo(name = "imagePath")
+    @SerializedName("imagePath")
+    val imagePath: String?,
+
+    @ColumnInfo(name = "subject")
+    @SerializedName("subject")
+    val subject: String?,
+
+    @ColumnInfo(name = "price")
+    @SerializedName("price")
+    val price: Int?
+)
