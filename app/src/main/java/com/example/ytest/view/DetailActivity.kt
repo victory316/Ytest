@@ -26,11 +26,11 @@ class DetailActivity : AppCompatActivity() {
     }
 
     private fun setupUi(binding: ActivityDetailBinding, intent: Intent) {
-        detailViewModel.setRequestId(intent.getIntExtra("requestId", 0))
-
         binding.apply {
             viewModel = detailViewModel
             lifecycleOwner = this@DetailActivity
         }
+
+        detailViewModel.setRequestId(intent.getIntExtra("requestId", 0))
     }
 }

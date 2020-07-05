@@ -33,10 +33,10 @@ class FavoriteAdapter(private val answersViewModel: MainViewModel) :
 
     class ResultViewHolder(
         private val binding: FavoriteDataItemBinding,
-        private val answersViewModel : MainViewModel
+        private val answersViewModel: MainViewModel
     ) : RecyclerView.ViewHolder(binding.root) {
 
-        fun formatTimeStamp(timestamp: Long) : String{
+        private fun formatTimeStamp(timestamp: Long): String {
             val tempCalendar = Calendar.getInstance()
             tempCalendar.timeInMillis = timestamp
             val dateFormat = SimpleDateFormat("YYYY-MM-dd hh:mm")
@@ -54,8 +54,8 @@ class FavoriteAdapter(private val answersViewModel: MainViewModel) :
                 scoreText = item.rate.toString()
                 addedTimeString = formatTimeStamp(item.savedTime)
 
-                favoriteSwitch.setOnCheckedChangeListener { buttonView, isChecked ->
-                    if (!isChecked) answersViewModel.deleteFavorite(item.id)
+                favoriteSwitch.setOnClickListener {
+                    answersViewModel.deleteFavorite(item.id)
                 }
 
                 root.setOnClickListener {

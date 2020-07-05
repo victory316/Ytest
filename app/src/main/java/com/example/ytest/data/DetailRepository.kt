@@ -15,7 +15,7 @@ class DetailRepository private constructor(private val dao: AnswerDao) {
     private var pageCount = 1
 
     fun requestProductWithId(id: Int): LiveData<Product> {
-        Timber.tag("Test").d("requested data : ${dao.getProductWithId(id)}")
+        Timber.tag("Test").d("requested data : ${dao.getProductWithId(id).value?.favoriteStatus}")
 
         return dao.getProductWithId(id)
     }

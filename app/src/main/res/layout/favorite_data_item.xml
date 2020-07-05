@@ -26,10 +26,6 @@
             type="String" />
 
         <variable
-            name="isFavorite"
-            type="Boolean" />
-
-        <variable
             name="addedTimeString"
             type="String" />
 
