@@ -6,7 +6,6 @@ import com.example.ytest.viewmodel.MainViewModel
 import timber.log.Timber
 
 class DataBoundaryCallback(
-    private val query: String,
     private val viewModel: MainViewModel
 ) : PagedList.BoundaryCallback<Product>() {
 

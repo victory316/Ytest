@@ -22,8 +22,6 @@ class MainViewModel internal constructor(
     val detailViewId: LiveData<Int>
         get() = _detailViewId
 
-    private var pageCount = 1
-
     private var factory: DataSource.Factory<Int, Product> =
         repository.getAllPaged()
 
@@ -33,12 +31,12 @@ class MainViewModel internal constructor(
 
         val config = PagedList.Config.Builder()
             .setInitialLoadSizeHint(10)
-            .setPageSize(10)
+            .setPageSize(20)
             .setPrefetchDistance(5)
             .build()
 
         val boundaryCallback =
-            DataBoundaryCallback("", this)
+            DataBoundaryCallback(this)
 
         val pagedListBuilder: LivePagedListBuilder<Int, Product> =
             LivePagedListBuilder<Int, Product>(
@@ -49,9 +47,9 @@ class MainViewModel internal constructor(
         pagedList = pagedListBuilder.build()
     }
 
-    val queryList: LiveData<List<Product>> = getSavedFavorite().switchMap {
-        repository.getProductList()
-    }
+//    val queryList: LiveData<List<Product>> = getSavedFavorite().switchMap {
+//        repository.getProductList()
+//    }
 
     val favoriteList: LiveData<List<Favorite>> = getSavedFavorite().switchMap {
         repository.getFavoriteList()
@@ -78,7 +76,7 @@ class MainViewModel internal constructor(
     }
 
     fun cleanData() {
-        repository.cleanData()
+//        repository.cleanData()
     }
 
     companion object {

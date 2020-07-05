@@ -24,7 +24,6 @@ class DetailViewModel internal constructor(
             Timber.tag("toggleTest").d("deleting! : ${it.id}")
             repository.deleteFavorite(it.id)
         }
-
     }
 
     fun toggleFavorite() {
