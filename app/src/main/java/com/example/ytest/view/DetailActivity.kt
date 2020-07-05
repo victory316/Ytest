@@ -30,7 +30,7 @@ class DetailActivity : AppCompatActivity() {
 
         binding.apply {
             viewModel = detailViewModel
-            favoriteSwitch.setOnCheckedChangeListener { buttonView, isChecked ->
+            favoriteSwitch.setOnCheckedChangeListener { _, isChecked ->
                 if (isChecked) {
                     detailViewModel.toggleFavorite()
                 } else {

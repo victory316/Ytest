@@ -56,9 +56,6 @@ class MainRepository private constructor(private val dao: AnswerDao) {
         return dao.getFavoriteList()
     }
 
-    fun changeFavoriteStatus(favorite: Boolean) {
-    }
-
     fun saveFavorite(product: Product) {
         Favorite(
             product.id, product.name, product.thumbnail, product.description, product.rate,
