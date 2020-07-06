@@ -4,4 +4,7 @@
     <string name="sort_by_rate">평점 순</string>
     <string name="show_all_tab_text">전체</string>
     <string name="favorite_tab_text">즐겨찾기</string>
+
+    <string name="error_message_paging">"리스트를 불러오는 중 오류가 발생했습니다."</string>
+    <string name="error_message_transaction">"저장한 데이터를 가져오는 중 오류가 발생했습니다."</string>
 </resources>

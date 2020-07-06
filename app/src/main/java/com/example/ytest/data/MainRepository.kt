@@ -6,18 +6,28 @@ import com.example.ytest.data.local.Favorite
 import com.example.ytest.data.local.Product
 import com.example.ytest.data.remote.BasicClient
 import io.reactivex.Observable
-import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.Disposable
 import io.reactivex.schedulers.Schedulers
-import timber.log.Timber
+import io.reactivex.subjects.PublishSubject
 
 
-class MainRepository private constructor(private val dao: AnswerDao) {
+class MainRepository private constructor(private val dao: MainDao) {
     private var disposable: Disposable? = null
     private var transactionDisposable: Disposable? = null
     private var saveDisposable: Disposable? = null
     private var deleteDisposable: Disposable? = null
     private var pageCount = 1
+
+    private var pagingErrorSubject = PublishSubject.create<Boolean>()
+    private var transactionErrorSubject = PublishSubject.create<Boolean>()
+
+    fun getPagingErrorSubject(): PublishSubject<Boolean> {
+        return pagingErrorSubject
+    }
+
+    fun getTransactionErrorSubject(): PublishSubject<Boolean> {
+        return transactionErrorSubject
+    }
 
     fun getAllPaged(): DataSource.Factory<Int, Product> {
 
@@ -37,29 +47,22 @@ class MainRepository private constructor(private val dao: AnswerDao) {
                 }
 
             }, { error ->
-                run {
-                    error.printStackTrace()
-                }
+
+                pagingErrorSubject.onNext(true)
+                error.printStackTrace()
             })
 
         return dao.getAllPaged()
     }
 
-    private var dataLoading = false
-
     fun doPaging() {
-
-        if (!dataLoading && pageCount != 4) {
-            dataLoading = true
-
+        if (pageCount != 4) {
             disposable = BasicClient()
                 .getApi().loadPlace(pageCount)
                 .observeOn(Schedulers.computation())
                 .subscribeOn(Schedulers.io())
                 .subscribe({ result ->
                     dao.addProductResult(result.data.product)
-
-                    Timber.tag("pageTest").d("paging")
 
                     result.data.product.forEach { product ->
                         dao.updateFavoriteStatus(
@@ -72,12 +75,10 @@ class MainRepository private constructor(private val dao: AnswerDao) {
                         pageCount++
                     }
 
-                    dataLoading = false
-
                 }, { error ->
-                    run {
-                        error.printStackTrace()
-                    }
+
+                    pagingErrorSubject.onNext(true)
+                    error.printStackTrace()
                 })
         }
     }
@@ -96,26 +97,33 @@ class MainRepository private constructor(private val dao: AnswerDao) {
                 .just(true)
                 .observeOn(Schedulers.io())
                 .subscribeOn(Schedulers.io())
-                .subscribe {
+                .subscribe({
                     dao.updateFavoriteStatus(favorite.id, true)
                     dao.saveFavorite(favorite)
-
                     saveDisposable?.dispose()
-                }
+                }, {
+                    transactionErrorSubject.onNext(true)
+                    it.printStackTrace()
+                })
         }
     }
+
 
     fun deleteFavorite(id: Int) {
         deleteDisposable = Observable
             .just(true)
             .observeOn(Schedulers.io())
             .subscribeOn(Schedulers.io())
-            .subscribe {
-                dao.deleteFavorite(id)
-                dao.updateFavoriteStatus(id, false)
+            .subscribe(
+                {
 
-                deleteDisposable?.dispose()
-            }
+                    dao.deleteFavorite(id)
+                    dao.updateFavoriteStatus(id, false)
+                    deleteDisposable?.dispose()
+                }, {
+                    transactionErrorSubject.onNext(true)
+                    it.printStackTrace()
+                })
     }
 
     fun cleanData() {
@@ -123,12 +131,15 @@ class MainRepository private constructor(private val dao: AnswerDao) {
             .just(true)
             .observeOn(Schedulers.io())
             .subscribeOn(Schedulers.io())
-            .subscribe {
+            .subscribe ({
                 dao.deleteAllList()
 
                 transactionDisposable?.dispose()
                 pageCount = 1
-            }
+            }, {
+                transactionErrorSubject.onNext(true)
+                it.printStackTrace()
+            })
     }
 
     companion object {
@@ -136,7 +147,7 @@ class MainRepository private constructor(private val dao: AnswerDao) {
         @Volatile
         private var instance: MainRepository? = null
 
-        fun getInstance(dao: AnswerDao) =
+        fun getInstance(dao: MainDao) =
             instance ?: synchronized(this) {
                 instance ?: MainRepository(dao).also { instance = it }
             }

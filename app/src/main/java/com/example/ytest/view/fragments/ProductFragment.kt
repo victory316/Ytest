@@ -6,6 +6,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.observe
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -48,7 +49,6 @@ class ProductFragment : Fragment() {
         }
     }
 
-
     private fun setupUi() {
         val layoutManager = LinearLayoutManager(requireActivity())
         val adapter = ProductAdapter(mainViewModel)
@@ -57,8 +57,6 @@ class ProductFragment : Fragment() {
         binding.allList.layoutManager = layoutManager
 
         mainViewModel.getPagedList().observe(viewLifecycleOwner) {
-            Timber.tag("pageTest").d("list size : ${it.size}")
-
             adapter.submitList(it)
         }
 
@@ -68,6 +66,20 @@ class ProductFragment : Fragment() {
                 Intent(requireContext(), DetailActivity::class.java)
                     .putExtra(REQUEST_ID, clickedItemId)
             )
+        }
+
+        mainViewModel.pagingError.observe(viewLifecycleOwner) {
+            Toast.makeText(
+                requireContext(),
+                "리스트를 불러오는 중 오류가 발생했습니다.", Toast.LENGTH_SHORT
+            ).show()
+        }
+
+        mainViewModel.transactionError.observe(viewLifecycleOwner) {
+            Toast.makeText(
+                requireContext(),
+                "저장한 데이터를 가져오는 중 오류가 발생했습니다.", Toast.LENGTH_SHORT
+            ).show()
         }
     }
 

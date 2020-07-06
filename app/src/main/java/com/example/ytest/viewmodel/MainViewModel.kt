@@ -8,6 +8,9 @@ import com.example.ytest.data.DataBoundaryCallback
 import com.example.ytest.data.MainRepository
 import com.example.ytest.data.local.Favorite
 import com.example.ytest.data.local.Product
+import io.reactivex.android.schedulers.AndroidSchedulers
+import io.reactivex.disposables.CompositeDisposable
+import io.reactivex.schedulers.Schedulers
 import timber.log.Timber
 
 class MainViewModel internal constructor(
@@ -20,13 +23,24 @@ class MainViewModel internal constructor(
     val detailViewId: LiveData<Int>
         get() = _detailViewId
 
+    private val _pagingError = MutableLiveData<Boolean>()
+    val pagingError: LiveData<Boolean>
+        get() = _pagingError
+
+    private val _transactionError = MutableLiveData<Boolean>()
+    val transactionError: LiveData<Boolean>
+        get() = _transactionError
+
     private var factory: DataSource.Factory<Int, Product> =
         repository.getAllPaged()
 
     private var pagedList: LiveData<PagedList<Product>>
 
+    private val errorDisposable = CompositeDisposable()
+
     init {
 
+        // Paging 설
         val config = PagedList.Config.Builder()
             .setInitialLoadSizeHint(10)
             .setPageSize(20)
@@ -43,6 +57,24 @@ class MainViewModel internal constructor(
             ).setBoundaryCallback(boundaryCallback)
 
         pagedList = pagedListBuilder.build()
+
+        errorDisposable.add(
+            repository.getPagingErrorSubject()
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribeOn(Schedulers.io())
+                .subscribe {
+                    _pagingError.postValue(it)
+                }
+        )
+
+        errorDisposable.add(
+            repository.getTransactionErrorSubject()
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribeOn(Schedulers.io())
+                .subscribe {
+                    _transactionError.postValue(it)
+                }
+        )
     }
 
     val favoriteList: LiveData<List<Favorite>> = getSavedFavorite().switchMap {
@@ -73,6 +105,10 @@ class MainViewModel internal constructor(
 
     fun cleanData() {
         repository.cleanData()
+    }
+
+    fun cleanDisposables() {
+        errorDisposable.clear()
     }
 
     companion object {

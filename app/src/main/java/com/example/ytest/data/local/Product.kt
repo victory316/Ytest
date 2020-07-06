@@ -5,6 +5,11 @@ import androidx.room.Entity
 import androidx.room.PrimaryKey
 import com.google.gson.annotations.SerializedName
 
+/**
+ *  숙소의 id 및 name, thumbnail등의 정보를 담는 data class
+ *
+ *  - favoriteStatus라는 column을 통해 즐겨찾기 상태를 반영
+ */
 @Entity(tableName = "product")
 data class Product(
 

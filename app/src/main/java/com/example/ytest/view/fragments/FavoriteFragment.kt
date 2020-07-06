@@ -119,6 +119,8 @@ class FavoriteFragment : Fragment() {
 
     override fun onDestroy() {
         mainViewModel.cleanData()
+        mainViewModel.cleanDisposables()
+
         super.onDestroy()
     }
 

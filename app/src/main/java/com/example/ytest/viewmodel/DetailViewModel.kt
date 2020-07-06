@@ -3,7 +3,6 @@ package com.example.ytest.viewmodel
 import androidx.lifecycle.*
 import com.example.ytest.data.DetailRepository
 import com.example.ytest.data.local.Product
-import timber.log.Timber
 
 class DetailViewModel internal constructor(
     private val repository: DetailRepository,
@@ -32,11 +31,11 @@ class DetailViewModel internal constructor(
     }
 
     private fun getSavedFavorite(): MutableLiveData<Int> {
-        return savedStateHandle.getLiveData(FAVORITE_SAVED_STATE_KEY, NO_FAVORITE)
+        return savedStateHandle.getLiveData(FAVORITE_SAVED_STATE_KEY, INITIAL_VALUE)
     }
 
     companion object {
-        private const val NO_FAVORITE = -1
+        private const val INITIAL_VALUE = -1
         private const val FAVORITE_SAVED_STATE_KEY = "FAVORITE_SAVED_STATE_KEY"
     }
 }
