@@ -10,7 +10,6 @@ import com.example.ytest.view.fragments.FavoriteFragment
 /**
  *  ViewPager2에 사용하기 위한 FragmentStateAdapter
  */
-
 class ViewPagerAdapter(fm: FragmentManager?, lifecycle: Lifecycle) : FragmentStateAdapter(fm!!, lifecycle){
     override fun getItemCount(): Int {
         return 2

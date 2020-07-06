@@ -5,6 +5,10 @@ import androidx.room.Entity
 import androidx.room.PrimaryKey
 import com.google.gson.annotations.SerializedName
 
+
+/**
+ *  숙소 정보와 썸네일 등을 저장하는 data class
+ */
 @Entity(tableName = "product")
 data class Product(
 

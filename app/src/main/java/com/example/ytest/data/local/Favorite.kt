@@ -5,6 +5,11 @@ import androidx.room.Entity
 import androidx.room.PrimaryKey
 import com.google.gson.annotations.SerializedName
 
+/**
+ *  즐겨찾기한 정보를 저장하기 위한 data class
+ *
+ *  - Product data class에 저장한 시점을 저장하는 savedTime이 추가된 형태
+ */
 @Entity(tableName = "favorite")
 data class Favorite(
 

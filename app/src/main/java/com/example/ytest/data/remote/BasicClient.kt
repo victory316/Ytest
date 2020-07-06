@@ -7,6 +7,9 @@ import retrofit2.converter.gson.GsonConverterFactory
 
 private const val BASE_URL = "https://www.gccompany.co.kr/App/"
 
+/**
+ *  REST API 통신을 위한 Client class
+ */
 class BasicClient {
     fun getApi(): BasicApi = Retrofit.Builder()
         .baseUrl(BASE_URL)

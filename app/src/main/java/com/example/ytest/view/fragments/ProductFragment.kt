@@ -48,7 +48,6 @@ class ProductFragment : Fragment() {
         }
     }
 
-
     private fun setupUi() {
         val layoutManager = LinearLayoutManager(requireActivity())
         val adapter = ProductAdapter(mainViewModel)

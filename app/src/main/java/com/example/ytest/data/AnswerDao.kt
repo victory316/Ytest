@@ -6,6 +6,9 @@ import androidx.room.*
 import com.example.ytest.data.local.Favorite
 import com.example.ytest.data.local.Product
 
+/**
+ *  REST API 통신을 위한 Api class
+ */
 @Dao
 interface AnswerDao {
 

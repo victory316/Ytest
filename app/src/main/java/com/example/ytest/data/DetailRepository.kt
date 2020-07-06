@@ -11,11 +11,8 @@ import timber.log.Timber
 
 
 class DetailRepository private constructor(private val dao: AnswerDao) {
-    private var disposable: Disposable? = null
-    private var transactionDisposable: Disposable? = null
     private var saveDisposable: Disposable? = null
     private var deleteDisposable: Disposable? = null
-    private var pageCount = 1
 
     fun requestProductWithId(id: Int): LiveData<Product> {
         return dao.getProductWithId(id)

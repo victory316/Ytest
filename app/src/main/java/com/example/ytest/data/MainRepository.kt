@@ -22,11 +22,11 @@ class MainRepository private constructor(private val dao: AnswerDao) {
 
     fun getAllPaged(): DataSource.Factory<Int, Product> {
 
-        if (pageCount != 3) {
-            pageCount++
-        }
-
-        Timber.d("pageCount : $pageCount")
+//        if (pageCount != 3) {
+//            pageCount++
+//        }
+//
+//        Timber.d("pageCount : $pageCount")
 
         dao.getProductList().value?.let { list ->
             if (list.isNotEmpty()) {
