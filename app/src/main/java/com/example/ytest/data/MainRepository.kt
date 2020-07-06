@@ -127,6 +127,7 @@ class MainRepository private constructor(private val dao: AnswerDao) {
                 dao.deleteAllList()
 
                 transactionDisposable?.dispose()
+                pageCount = 1
             }
     }
 
