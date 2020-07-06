@@ -57,6 +57,8 @@ class ProductFragment : Fragment() {
         binding.allList.layoutManager = layoutManager
 
         mainViewModel.getPagedList().observe(viewLifecycleOwner) {
+            Timber.tag("pageTest").d("list size : ${it.size}")
+
             adapter.submitList(it)
         }
 

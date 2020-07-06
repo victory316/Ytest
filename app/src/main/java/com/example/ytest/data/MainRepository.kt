@@ -26,12 +26,13 @@ class MainRepository private constructor(private val dao: AnswerDao) {
             pageCount++
         }
 
-        Timber.d("pageCount : $pageCount")
+        Timber.tag("pageTest").d("pageCount : $pageCount")
 
         dao.getProductList().value?.let { list ->
             if (list.isNotEmpty()) {
                 return dao.getAllPaged()
             } else {
+                Timber.tag("pageTest").d("loading : $pageCount")
 
                 // Gihub search query로 찾고자 하는 유저를 검색
                 disposable = BasicClient()
@@ -41,11 +42,10 @@ class MainRepository private constructor(private val dao: AnswerDao) {
                     .subscribe({ result ->
                         dao.addProductResult(result.data.product)
 
-                        for (data in result.data.product) {
-
+                        result.data.product.forEach { product ->
                             dao.updateFavoriteStatus(
-                                data.id,
-                                dao.checkFavoriteExists(data.id) == 1
+                                product.id,
+                                dao.checkFavoriteExists(product.id) == 1
                             )
                         }
 

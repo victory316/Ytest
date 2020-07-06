@@ -13,6 +13,6 @@ class DataBoundaryCallback(
     }
 
     override fun onItemAtEndLoaded(itemAtEnd: Product) {
-        viewModel.getPagedList()
+//        viewModel.getPagedList()
     }
 }
