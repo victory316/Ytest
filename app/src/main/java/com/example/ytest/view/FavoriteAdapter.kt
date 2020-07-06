@@ -56,7 +56,6 @@ class FavoriteAdapter(private val answersViewModel: MainViewModel) :
                 addedTimeString = formatTimeStamp(item.savedTime)
                 favoriteSwitch.isChecked = true
 
-
                 favoriteSwitch.setOnClickListener {
                     answersViewModel.deleteFavorite(item.id)
                 }

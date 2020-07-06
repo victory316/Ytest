@@ -50,6 +50,7 @@ class FavoriteFragment : Fragment() {
         binding.allList.adapter = adapter
         binding.allList.layoutManager = layoutManager
 
+        // 스피너 위치에 따라 sort할 조건을 다르게 리스트 업데이트
         mainViewModel.favoriteList.observe(viewLifecycleOwner) { favoriteList ->
 
             if (currentSpinner == 0) {
@@ -97,6 +98,7 @@ class FavoriteFragment : Fragment() {
             ) {
                 currentSpinner = position
 
+                // 스피너 선택에 따라 기존 리스트 sort 후 리스트 업데이트
                 when (position) {
                     0 -> {
                         adapter.currentList.sortedBy { favorite -> favorite.savedTime }.let {
