@@ -72,7 +72,7 @@ class MainViewModel internal constructor(
     }
 
     fun cleanData() {
-//        repository.cleanData()
+        repository.cleanData()
     }
 
     companion object {

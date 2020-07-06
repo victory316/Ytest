@@ -6,6 +6,9 @@ import androidx.fragment.app.Fragment
 import com.example.ytest.R
 import com.example.ytest.databinding.ActivityMainBinding
 import com.google.android.material.tabs.TabLayoutMediator
+import io.reactivex.Observable
+import io.reactivex.disposables.Disposable
+import io.reactivex.schedulers.Schedulers
 
 /**
  * 최초로 실행되는 기본 Activity
@@ -14,6 +17,7 @@ import com.google.android.material.tabs.TabLayoutMediator
 class MainActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityMainBinding
+    private lateinit var roomDisposable: Disposable
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
