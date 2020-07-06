@@ -29,7 +29,10 @@ class MainActivity : AppCompatActivity() {
             adapter = ViewPagerAdapter(supportFragmentManager, lifecycle)
         }
 
-        val tabText = listOf("전체", "즐겨찾기")
+        val tabText = listOf(
+            resources.getString(R.string.show_all_tab_text),
+            resources.getString(R.string.favorite_tab_text)
+        )
 
         TabLayoutMediator(binding.tabs, binding.mainViewPager) { tab, position ->
             tab.text = tabText[position]

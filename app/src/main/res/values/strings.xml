@@ -2,4 +2,6 @@
     <string name="app_name">Ytest</string>
     <string name="sort_by_latest_string">최근등록 순</string>
     <string name="sort_by_rate">평점 순</string>
+    <string name="show_all_tab_text">전체</string>
+    <string name="favorite_tab_text">즐겨찾기</string>
 </resources>

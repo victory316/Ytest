@@ -5,5 +5,9 @@ package com.example.ytest.util
  */
 object Constants {
 
+    // 선택한 아이템의 ID
     const val REQUEST_ID = "requestID"
+
+    // 뷰페이저의 사이즈
+    const val VIEWPAGER_COUNT = 2
 }

@@ -42,8 +42,6 @@ class MainRepository private constructor(private val dao: AnswerDao) {
                         dao.addProductResult(result.data.product)
 
                         for (data in result.data.product) {
-                            Timber.tag("test").d("$data")
-                            Timber.tag("test").d("exists? : ${dao.checkFavoriteExists(data.id)}")
 
                             dao.updateFavoriteStatus(
                                 data.id,
@@ -60,41 +58,6 @@ class MainRepository private constructor(private val dao: AnswerDao) {
         }
 
         return dao.getAllPaged()
-    }
-
-    fun getProductList(): LiveData<List<Product>> {
-
-        if (dao.getProductList().value.isNullOrEmpty()) {
-            disposable = BasicClient().getApi()
-                .loadPlace(pageCount)
-                .observeOn(Schedulers.trampoline())
-                .subscribeOn(Schedulers.io())
-                .subscribe(
-                    { result ->
-
-                        dao.addProductResult(result.data.product)
-
-                        Timber.tag("queryTest").d("result : $result")
-
-                        for (data in result.data.product) {
-                            Timber.tag("test").d("$data")
-                            Timber.tag("test").d("exists? : ${dao.checkFavoriteExists(data.id)}")
-
-                            dao.updateFavoriteStatus(
-                                data.id,
-                                dao.checkFavoriteExists(data.id) == 1
-                            )
-                        }
-
-
-                    }, {
-                        it.printStackTrace()
-                    })
-
-
-            return dao.getProductList()
-        }
-        return dao.getProductList()
     }
 
     fun getFavoriteList(): LiveData<List<Favorite>> {

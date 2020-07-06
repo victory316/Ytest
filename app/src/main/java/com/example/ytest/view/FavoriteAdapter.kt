@@ -39,7 +39,8 @@ class FavoriteAdapter(private val answersViewModel: MainViewModel) :
         private fun formatTimeStamp(timestamp: Long): String {
             val tempCalendar = Calendar.getInstance()
             tempCalendar.timeInMillis = timestamp
-            val dateFormat = SimpleDateFormat("YY/MM/dd HH:mm")
+
+            val dateFormat = SimpleDateFormat("YY/MM/dd HH:mm", Locale.getDefault())
 
             return dateFormat.format(tempCalendar.time)
         }

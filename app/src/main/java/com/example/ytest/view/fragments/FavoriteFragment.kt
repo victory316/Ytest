@@ -39,8 +39,8 @@ class FavoriteFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         binding = FragmentSecondBinding.inflate(inflater, container, false)
-
         setupUi()
+
         return binding.root
     }
 
@@ -53,7 +53,6 @@ class FavoriteFragment : Fragment() {
         binding.allList.layoutManager = layoutManager
 
         mainViewModel.favoriteList.observe(viewLifecycleOwner) { favoriteList ->
-            Timber.tag("favoriteTest").d("submitting : $favoriteList")
 
             if (currentSpinner == 0) {
                 favoriteList.sortedBy { favorite -> favorite.savedTime }.let {
