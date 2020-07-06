@@ -24,7 +24,7 @@ class MainRepository private constructor(private val dao: AnswerDao) {
         // Gihub search query로 찾고자 하는 유저를 검색
         disposable = BasicClient()
             .getApi().loadPlace(pageCount)
-            .observeOn(AndroidSchedulers.mainThread())
+            .observeOn(Schedulers.computation())
             .subscribeOn(Schedulers.io())
             .subscribe({ result ->
                 dao.addProductResult(result.data.product)
@@ -34,10 +34,6 @@ class MainRepository private constructor(private val dao: AnswerDao) {
                         product.id,
                         dao.checkFavoriteExists(product.id) == 1
                     )
-                }
-
-                if (pageCount != 3) {
-                    pageCount++
                 }
 
             }, { error ->
@@ -49,32 +45,41 @@ class MainRepository private constructor(private val dao: AnswerDao) {
         return dao.getAllPaged()
     }
 
+    private var dataLoading = false
+
     fun doPaging() {
-        disposable = BasicClient()
-            .getApi().loadPlace(pageCount)
-            .observeOn(AndroidSchedulers.mainThread())
-            .subscribeOn(Schedulers.io())
-            .subscribe({ result ->
-                dao.addProductResult(result.data.product)
 
-                Timber.tag("pageTest").d("paging")
+        if (!dataLoading && pageCount != 4) {
+            dataLoading = true
 
-                result.data.product.forEach { product ->
-                    dao.updateFavoriteStatus(
-                        product.id,
-                        dao.checkFavoriteExists(product.id) == 1
-                    )
-                }
+            disposable = BasicClient()
+                .getApi().loadPlace(pageCount)
+                .observeOn(Schedulers.computation())
+                .subscribeOn(Schedulers.io())
+                .subscribe({ result ->
+                    dao.addProductResult(result.data.product)
 
-                if (pageCount != 3) {
-                    pageCount++
-                }
+                    Timber.tag("pageTest").d("paging")
 
-            }, { error ->
-                run {
-                    error.printStackTrace()
-                }
-            })
+                    result.data.product.forEach { product ->
+                        dao.updateFavoriteStatus(
+                            product.id,
+                            dao.checkFavoriteExists(product.id) == 1
+                        )
+                    }
+
+                    if (pageCount != 4) {
+                        pageCount++
+                    }
+
+                    dataLoading = false
+
+                }, { error ->
+                    run {
+                        error.printStackTrace()
+                    }
+                })
+        }
     }
 
     fun getFavoriteList(): LiveData<List<Favorite>> {
