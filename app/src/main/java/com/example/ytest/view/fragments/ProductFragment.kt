@@ -32,13 +32,11 @@ class ProductFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        // Inflate the layout for this fragment
+
         binding = FragmentFirstTabBinding.inflate(inflater, container, false)
 
         setupViewModel(binding)
         setupUi()
-
-        Timber.tag("queryTest").d("onCreateView!")
 
         return binding.root
     }
@@ -63,7 +61,6 @@ class ProductFragment : Fragment() {
         }
 
         mainViewModel.detailViewId.observe(viewLifecycleOwner) { clickedItemId ->
-            Timber.tag("Test").d("id : $clickedItemId")
 
             startActivity(
                 Intent(requireContext(), DetailActivity::class.java)

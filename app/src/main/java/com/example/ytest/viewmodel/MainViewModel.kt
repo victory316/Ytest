@@ -63,8 +63,6 @@ class MainViewModel internal constructor(
 
     fun toggleFavorite(product: Product) {
         repository.saveFavorite(product)
-
-        Timber.tag("toggleTest").d("toggle! : $product")
     }
 
     fun deleteFavorite(id: Int) {
