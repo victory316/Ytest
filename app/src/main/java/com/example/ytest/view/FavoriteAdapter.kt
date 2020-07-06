@@ -54,6 +54,7 @@ class FavoriteAdapter(private val answersViewModel: MainViewModel) :
                 secondaryText = item.description.price.toString()
                 scoreText = item.rate.toString()
                 addedTimeString = formatTimeStamp(item.savedTime)
+                favoriteSwitch.isChecked = true
 
 
                 favoriteSwitch.setOnClickListener {
