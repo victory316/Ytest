@@ -10,7 +10,9 @@ import io.reactivex.disposables.Disposable
 import io.reactivex.schedulers.Schedulers
 import io.reactivex.subjects.PublishSubject
 
-
+/**
+ *  메인 화면에서의 상호작용에 사용되는 repository
+ */
 class MainRepository private constructor(private val dao: MainDao) {
     private var disposable: Disposable? = null
     private var transactionDisposable: Disposable? = null
@@ -30,8 +32,6 @@ class MainRepository private constructor(private val dao: MainDao) {
     }
 
     fun getAllPaged(): DataSource.Factory<Int, Product> {
-
-        // Gihub search query로 찾고자 하는 유저를 검색
         disposable = BasicClient()
             .getApi().loadPlace(pageCount)
             .observeOn(Schedulers.computation())
@@ -87,6 +87,7 @@ class MainRepository private constructor(private val dao: MainDao) {
         return dao.getFavoriteList()
     }
 
+    // 즐겨찾기 버튼 선택시 해당 Product를 timestamp와 함께 Room에 저장하고 즐겨찾기 유무를 기존 아이템들에 반영
     fun saveFavorite(product: Product) {
         Favorite(
             product.id, product.name, product.thumbnail, product.description, product.rate,
@@ -108,7 +109,7 @@ class MainRepository private constructor(private val dao: MainDao) {
         }
     }
 
-
+    // 즐겨찾기 데이터의 삭제
     fun deleteFavorite(id: Int) {
         deleteDisposable = Observable
             .just(true)
@@ -126,12 +127,14 @@ class MainRepository private constructor(private val dao: MainDao) {
                 })
     }
 
+
+    // onDestroy 호출시 즐겨찾기 리스트를 제외한 데이터를 clear
     fun cleanData() {
         transactionDisposable = Observable
             .just(true)
             .observeOn(Schedulers.io())
             .subscribeOn(Schedulers.io())
-            .subscribe ({
+            .subscribe({
                 dao.deleteAllList()
 
                 transactionDisposable?.dispose()

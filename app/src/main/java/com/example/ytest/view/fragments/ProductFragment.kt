@@ -10,6 +10,7 @@ import android.widget.Toast
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.observe
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.example.ytest.R
 import com.example.ytest.databinding.FragmentFirstTabBinding
 import com.example.ytest.util.Constants
 import com.example.ytest.util.Constants.REQUEST_ID
@@ -71,14 +72,14 @@ class ProductFragment : Fragment() {
         mainViewModel.pagingError.observe(viewLifecycleOwner) {
             Toast.makeText(
                 requireContext(),
-                "리스트를 불러오는 중 오류가 발생했습니다.", Toast.LENGTH_SHORT
+                getString(R.string.error_message_paging), Toast.LENGTH_SHORT
             ).show()
         }
 
         mainViewModel.transactionError.observe(viewLifecycleOwner) {
             Toast.makeText(
                 requireContext(),
-                "저장한 데이터를 가져오는 중 오류가 발생했습니다.", Toast.LENGTH_SHORT
+                getString(R.string.error_message_transaction), Toast.LENGTH_SHORT
             ).show()
         }
     }

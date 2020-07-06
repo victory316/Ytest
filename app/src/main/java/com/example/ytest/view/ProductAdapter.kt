@@ -10,6 +10,9 @@ import com.example.ytest.data.local.Product
 import com.example.ytest.databinding.BasicDataItemBinding
 import com.example.ytest.viewmodel.MainViewModel
 
+/**
+ *  페이징 구현을 위한 PagedListAdapter
+ */
 class ProductAdapter(private val answersViewModel: MainViewModel) :
     PagedListAdapter<Product, RecyclerView.ViewHolder>(AccountDiffCallback()) {
 

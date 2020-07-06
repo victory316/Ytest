@@ -4,6 +4,9 @@ import androidx.lifecycle.*
 import com.example.ytest.data.DetailRepository
 import com.example.ytest.data.local.Product
 
+/**
+ *  상세 페이지와 상호작용하는 ViewModel class
+ */
 class DetailViewModel internal constructor(
     private val repository: DetailRepository,
     private val savedStateHandle: SavedStateHandle

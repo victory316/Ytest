@@ -13,6 +13,10 @@ import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.schedulers.Schedulers
 import timber.log.Timber
 
+
+/**
+ *  메 페이지와 상호작용하는 ViewModel class
+ */
 class MainViewModel internal constructor(
     private val repository: MainRepository,
     private val savedStateHandle: SavedStateHandle
@@ -40,7 +44,7 @@ class MainViewModel internal constructor(
 
     init {
 
-        // Paging 설
+        // Paging 설정
         val config = PagedList.Config.Builder()
             .setInitialLoadSizeHint(10)
             .setPageSize(20)

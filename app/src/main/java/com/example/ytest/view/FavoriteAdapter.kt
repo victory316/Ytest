@@ -55,10 +55,12 @@ class FavoriteAdapter(private val answersViewModel: MainViewModel) :
                 scoreText = item.rate.toString()
                 addedTimeString = formatTimeStamp(item.savedTime)
 
+
                 favoriteSwitch.setOnClickListener {
                     answersViewModel.deleteFavorite(item.id)
                 }
 
+                // 전체 뷰 선택시 DetailActivity 시작
                 root.setOnClickListener {
                     answersViewModel.showDetailView(item.id)
                 }
