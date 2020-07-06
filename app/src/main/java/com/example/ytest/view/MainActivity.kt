@@ -1,14 +1,10 @@
 package com.example.ytest.view
 
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import androidx.fragment.app.Fragment
+import androidx.appcompat.app.AppCompatActivity
 import com.example.ytest.R
 import com.example.ytest.databinding.ActivityMainBinding
 import com.google.android.material.tabs.TabLayoutMediator
-import io.reactivex.Observable
-import io.reactivex.disposables.Disposable
-import io.reactivex.schedulers.Schedulers
 
 /**
  * 최초로 실행되는 기본 Activity
