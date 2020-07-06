@@ -1,5 +1,5 @@
 <resources>
     <string name="app_name">Ytest</string>
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="sort_by_latest_string">최근등록 순</string>
+    <string name="sort_by_rate">평점 순</string>
 </resources>

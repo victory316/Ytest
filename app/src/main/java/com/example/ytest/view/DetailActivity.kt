@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import androidx.activity.viewModels
 import com.example.ytest.databinding.ActivityDetailBinding
+import com.example.ytest.util.Constants.REQUEST_ID
 import com.example.ytest.util.InjectorUtils
 import com.example.ytest.viewmodel.DetailViewModel
 
@@ -26,7 +27,7 @@ class DetailActivity : AppCompatActivity() {
     }
 
     private fun setupUi(binding: ActivityDetailBinding, intent: Intent) {
-        detailViewModel.setRequestId(intent.getIntExtra("requestId", 0))
+        detailViewModel.setRequestId(intent.getIntExtra(REQUEST_ID, 0))
 
         binding.apply {
             viewModel = detailViewModel

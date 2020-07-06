@@ -21,7 +21,6 @@ class DetailViewModel internal constructor(
 
     fun deleteFavorite() {
         requestedData.value?.let {
-            Timber.tag("toggleTest").d("deleting! : ${it.id}")
             repository.deleteFavorite(it.id)
         }
     }
@@ -29,7 +28,6 @@ class DetailViewModel internal constructor(
     fun toggleFavorite() {
         requestedData.value?.let {
             repository.saveFavorite(it)
-            Timber.tag("toggleTest").d("toggle! : $it")
         }
     }
 

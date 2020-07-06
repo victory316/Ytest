@@ -11,7 +11,9 @@ import android.widget.ArrayAdapter
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.observe
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.example.ytest.R
 import com.example.ytest.databinding.FragmentSecondBinding
+import com.example.ytest.util.Constants.REQUEST_ID
 import com.example.ytest.util.InjectorUtils
 import com.example.ytest.view.DetailActivity
 import com.example.ytest.view.FavoriteAdapter
@@ -39,8 +41,6 @@ class FavoriteFragment : Fragment() {
         binding = FragmentSecondBinding.inflate(inflater, container, false)
 
         setupUi()
-
-        // Inflate the layout for this fragment
         return binding.root
     }
 
@@ -68,16 +68,19 @@ class FavoriteFragment : Fragment() {
         }
 
         mainViewModel.detailViewId.observe(viewLifecycleOwner) { clickedItemId ->
-            Timber.tag("Test").d("id : $clickedItemId")
 
             startActivity(
                 Intent(requireContext(), DetailActivity::class.java)
-                    .putExtra("requestId", clickedItemId)
+                    .putExtra(REQUEST_ID, clickedItemId)
             )
         }
 
-        val spinnerItem = arrayOf("최근등록 순", "평점 순")
-        val spinnerAdapter = ArrayAdapter<String>(
+        val spinnerItem = arrayOf(
+            resources.getString(R.string.sort_by_latest_string),
+            resources.getString(R.string.sort_by_rate)
+        )
+
+        val spinnerAdapter = ArrayAdapter(
             requireContext(),
             android.R.layout.simple_spinner_dropdown_item,
             spinnerItem
@@ -102,15 +105,12 @@ class FavoriteFragment : Fragment() {
                         adapter.currentList.sortedBy { favorite -> favorite.savedTime }.let {
                             adapter.submitList(it.asReversed())
                         }
-//                        (binding.allList.adapter as FavoriteAdapter).notifyDataSetChanged()
                     }
                     1 -> {
                         adapter.currentList.sortedBy { favorite -> favorite.rate }
                             .let {
                                 adapter.submitList(it.asReversed())
                             }
-
-//                        (binding.allList.adapter as FavoriteAdapter).notifyDataSetChanged()
                     }
                 }
             }

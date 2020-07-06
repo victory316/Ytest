@@ -39,17 +39,13 @@ class MainViewModel internal constructor(
             DataBoundaryCallback(this)
 
         val pagedListBuilder: LivePagedListBuilder<Int, Product> =
-            LivePagedListBuilder<Int, Product>(
+            LivePagedListBuilder(
                 factory,
                 config
             ).setBoundaryCallback(boundaryCallback)
 
         pagedList = pagedListBuilder.build()
     }
-
-//    val queryList: LiveData<List<Product>> = getSavedFavorite().switchMap {
-//        repository.getProductList()
-//    }
 
     val favoriteList: LiveData<List<Favorite>> = getSavedFavorite().switchMap {
         repository.getFavoriteList()

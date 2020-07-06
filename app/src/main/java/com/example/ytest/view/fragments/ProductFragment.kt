@@ -10,6 +10,8 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.observe
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.ytest.databinding.FragmentFirstTabBinding
+import com.example.ytest.util.Constants
+import com.example.ytest.util.Constants.REQUEST_ID
 import com.example.ytest.util.InjectorUtils
 import com.example.ytest.view.DetailActivity
 import com.example.ytest.view.ProductAdapter
@@ -57,8 +59,6 @@ class ProductFragment : Fragment() {
         binding.allList.layoutManager = layoutManager
 
         mainViewModel.getPagedList().observe(viewLifecycleOwner) {
-            Timber.tag("listTest").d("submitting : $it")
-
             adapter.submitList(it)
         }
 
@@ -67,7 +67,7 @@ class ProductFragment : Fragment() {
 
             startActivity(
                 Intent(requireContext(), DetailActivity::class.java)
-                    .putExtra("requestId", clickedItemId)
+                    .putExtra(REQUEST_ID, clickedItemId)
             )
         }
     }
