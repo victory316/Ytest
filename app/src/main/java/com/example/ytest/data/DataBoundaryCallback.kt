@@ -13,6 +13,8 @@ class DataBoundaryCallback(
     }
 
     override fun onItemAtEndLoaded(itemAtEnd: Product) {
-//        viewModel.getPagedList()
+
+        Timber.tag("pageTest").d("item at end!")
+        viewModel.doPaging()
     }
 }

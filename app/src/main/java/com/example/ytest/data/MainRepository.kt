@@ -19,45 +19,62 @@ class MainRepository private constructor(private val dao: AnswerDao) {
     private var deleteDisposable: Disposable? = null
     private var pageCount = 1
 
-
     fun getAllPaged(): DataSource.Factory<Int, Product> {
 
-        if (pageCount != 3) {
-            pageCount++
-        }
+        // Gihub search query로 찾고자 하는 유저를 검색
+        disposable = BasicClient()
+            .getApi().loadPlace(pageCount)
+            .observeOn(AndroidSchedulers.mainThread())
+            .subscribeOn(Schedulers.io())
+            .subscribe({ result ->
+                dao.addProductResult(result.data.product)
 
-        Timber.tag("pageTest").d("pageCount : $pageCount")
+                result.data.product.forEach { product ->
+                    dao.updateFavoriteStatus(
+                        product.id,
+                        dao.checkFavoriteExists(product.id) == 1
+                    )
+                }
 
-        dao.getProductList().value?.let { list ->
-            if (list.isNotEmpty()) {
-                return dao.getAllPaged()
-            } else {
-                Timber.tag("pageTest").d("loading : $pageCount")
+                if (pageCount != 3) {
+                    pageCount++
+                }
 
-                // Gihub search query로 찾고자 하는 유저를 검색
-                disposable = BasicClient()
-                    .getApi().loadPlace(pageCount)
-                    .observeOn(AndroidSchedulers.mainThread())
-                    .subscribeOn(Schedulers.io())
-                    .subscribe({ result ->
-                        dao.addProductResult(result.data.product)
-
-                        result.data.product.forEach { product ->
-                            dao.updateFavoriteStatus(
-                                product.id,
-                                dao.checkFavoriteExists(product.id) == 1
-                            )
-                        }
-
-                    }, { error ->
-                        run {
-                            error.printStackTrace()
-                        }
-                    })
-            }
-        }
+            }, { error ->
+                run {
+                    error.printStackTrace()
+                }
+            })
 
         return dao.getAllPaged()
+    }
+
+    fun doPaging() {
+        disposable = BasicClient()
+            .getApi().loadPlace(pageCount)
+            .observeOn(AndroidSchedulers.mainThread())
+            .subscribeOn(Schedulers.io())
+            .subscribe({ result ->
+                dao.addProductResult(result.data.product)
+
+                Timber.tag("pageTest").d("paging")
+
+                result.data.product.forEach { product ->
+                    dao.updateFavoriteStatus(
+                        product.id,
+                        dao.checkFavoriteExists(product.id) == 1
+                    )
+                }
+
+                if (pageCount != 3) {
+                    pageCount++
+                }
+
+            }, { error ->
+                run {
+                    error.printStackTrace()
+                }
+            })
     }
 
     fun getFavoriteList(): LiveData<List<Favorite>> {

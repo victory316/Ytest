@@ -49,6 +49,10 @@ class MainViewModel internal constructor(
         repository.getFavoriteList()
     }
 
+    fun doPaging() {
+        repository.doPaging()
+    }
+
     fun getPagedList() = pagedList
 
     private fun getSavedFavorite(): MutableLiveData<Int> {
