@@ -15,8 +15,6 @@ class MainViewModel internal constructor(
     private val savedStateHandle: SavedStateHandle
 ) : ViewModel() {
 
-    private val dataList = repository.getProductList()
-
     // 아이템을 고를 경우 해당 아이템의 id를 전달하는 LiveData
     private val _detailViewId = MutableLiveData<Int>()
     val detailViewId: LiveData<Int>
@@ -39,17 +37,13 @@ class MainViewModel internal constructor(
             DataBoundaryCallback(this)
 
         val pagedListBuilder: LivePagedListBuilder<Int, Product> =
-            LivePagedListBuilder<Int, Product>(
+            LivePagedListBuilder(
                 factory,
                 config
             ).setBoundaryCallback(boundaryCallback)
 
         pagedList = pagedListBuilder.build()
     }
-
-//    val queryList: LiveData<List<Product>> = getSavedFavorite().switchMap {
-//        repository.getProductList()
-//    }
 
     val favoriteList: LiveData<List<Favorite>> = getSavedFavorite().switchMap {
         repository.getFavoriteList()

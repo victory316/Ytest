@@ -39,8 +39,6 @@ class FavoriteFragment : Fragment() {
         binding = FragmentSecondBinding.inflate(inflater, container, false)
 
         setupUi()
-
-        // Inflate the layout for this fragment
         return binding.root
     }
 
@@ -102,15 +100,12 @@ class FavoriteFragment : Fragment() {
                         adapter.currentList.sortedBy { favorite -> favorite.savedTime }.let {
                             adapter.submitList(it.asReversed())
                         }
-//                        (binding.allList.adapter as FavoriteAdapter).notifyDataSetChanged()
                     }
                     1 -> {
                         adapter.currentList.sortedBy { favorite -> favorite.rate }
                             .let {
                                 adapter.submitList(it.asReversed())
                             }
-
-//                        (binding.allList.adapter as FavoriteAdapter).notifyDataSetChanged()
                     }
                 }
             }
