@@ -2,22 +2,22 @@ package com.example.ytest.view.fragments
 
 import android.content.Intent
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
+import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.observe
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.example.ytest.R
 import com.example.ytest.databinding.FragmentSecondBinding
+import com.example.ytest.util.Constants.REQUEST_ID
 import com.example.ytest.util.InjectorUtils
 import com.example.ytest.view.DetailActivity
 import com.example.ytest.view.FavoriteAdapter
-import com.example.ytest.view.ProductAdapter
 import com.example.ytest.viewmodel.MainViewModel
-import timber.log.Timber
 
 /**
  * 두번째 탭의 UI를 구성하는 FirstTabFragment
@@ -30,15 +30,15 @@ class FavoriteFragment : Fragment() {
         InjectorUtils.provideMainViewModel(this)
     }
 
+    private var currentSpinner = 0
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
         binding = FragmentSecondBinding.inflate(inflater, container, false)
-
         setupUi()
 
-        // Inflate the layout for this fragment
         return binding.root
     }
 
@@ -50,27 +50,37 @@ class FavoriteFragment : Fragment() {
         binding.allList.adapter = adapter
         binding.allList.layoutManager = layoutManager
 
+        // 스피너 위치에 따라 sort할 조건을 다르게 리스트 업데이트
         mainViewModel.favoriteList.observe(viewLifecycleOwner) { favoriteList ->
-            Timber.tag("favoriteTest").d("submitting : $favoriteList")
 
-            favoriteList.sortedBy { favorite -> favorite.savedTime }.let {
-                adapter.submitList(it.asReversed())
+            if (currentSpinner == 0) {
+                favoriteList.sortedBy { favorite -> favorite.savedTime }.let {
+                    adapter.submitList(it.asReversed())
+                }
+            } else {
+                favoriteList.sortedBy { favorite -> favorite.rate }
+                    .let {
+                        adapter.submitList(it.asReversed())
+                    }
             }
         }
 
         mainViewModel.detailViewId.observe(viewLifecycleOwner) { clickedItemId ->
-            Timber.tag("Test").d("id : $clickedItemId")
 
             startActivity(
                 Intent(requireContext(), DetailActivity::class.java)
-                    .putExtra("requestId", clickedItemId)
+                    .putExtra(REQUEST_ID, clickedItemId)
             )
         }
 
-        val spinnerItem = arrayOf("최근등록 순", "평점 순")
-        val spinnerAdapter = ArrayAdapter<String>(
+        val spinnerItem = arrayOf(
+            resources.getString(R.string.sort_by_latest_string),
+            resources.getString(R.string.sort_by_rate)
+        )
+
+        val spinnerAdapter = ArrayAdapter(
             requireContext(),
-            android.R.layout.simple_spinner_item,
+            android.R.layout.simple_spinner_dropdown_item,
             spinnerItem
         )
 
@@ -86,44 +96,20 @@ class FavoriteFragment : Fragment() {
                 position: Int,
                 id: Long
             ) {
+                currentSpinner = position
+
+                // 스피너 선택에 따라 기존 리스트 sort 후 리스트 업데이트
                 when (position) {
                     0 -> {
-                        for (data in adapter.currentList) {
-                            Timber.d("current list data : $data")
-                        }
-
                         adapter.currentList.sortedBy { favorite -> favorite.savedTime }.let {
                             adapter.submitList(it.asReversed())
                         }
-
-
-                        for (data in adapter.currentList) {
-                            Timber.d("after sorted list data : $data")
-                        }
-//                    adapter.notifyDataSetChanged()
-                        (binding.allList.adapter as FavoriteAdapter).notifyDataSetChanged()
-//                        adapter.submit
-
                     }
                     1 -> {
-
-                        for (data in adapter.currentList) {
-                            Timber.d("current list data : $data")
-                        }
-
-                        (binding.allList.adapter as FavoriteAdapter).currentList.sortedBy { favorite -> favorite.rate }
+                        adapter.currentList.sortedBy { favorite -> favorite.rate }
                             .let {
                                 adapter.submitList(it.asReversed())
                             }
-                        Timber.tag("sortTest").d("sorting with rate")
-
-
-                        for (data in adapter.currentList) {
-                            Timber.d("after sorted list data : $data")
-                        }
-
-                        (binding.allList.adapter as FavoriteAdapter).notifyDataSetChanged()
-//                    adapter.notifyDataSetChanged()
                     }
                 }
             }
@@ -133,6 +119,8 @@ class FavoriteFragment : Fragment() {
 
     override fun onDestroy() {
         mainViewModel.cleanData()
+        mainViewModel.cleanDisposables()
+
         super.onDestroy()
     }
 

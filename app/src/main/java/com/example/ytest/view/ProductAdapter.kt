@@ -2,15 +2,18 @@ package com.example.ytest.view
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.paging.PagedListAdapter
 import androidx.recyclerview.widget.DiffUtil
-import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.example.ytest.data.local.Product
 import com.example.ytest.databinding.BasicDataItemBinding
 import com.example.ytest.viewmodel.MainViewModel
 
+/**
+ *  페이징 구현을 위한 PagedListAdapter
+ */
 class ProductAdapter(private val answersViewModel: MainViewModel) :
-    ListAdapter<Product, RecyclerView.ViewHolder>(AccountDiffCallback()) {
+    PagedListAdapter<Product, RecyclerView.ViewHolder>(AccountDiffCallback()) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
         val binding = BasicDataItemBinding.inflate(
@@ -25,8 +28,9 @@ class ProductAdapter(private val answersViewModel: MainViewModel) :
     }
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
-        val plant = getItem(position)
-        (holder as ResultViewHolder).bind(plant)
+        getItem(position)?.let {
+            (holder as ResultViewHolder).bind(it)
+        }
     }
 
     class ResultViewHolder(

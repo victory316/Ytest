@@ -1,8 +1,7 @@
 package com.example.ytest.view
 
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import androidx.fragment.app.Fragment
+import androidx.appcompat.app.AppCompatActivity
 import com.example.ytest.R
 import com.example.ytest.databinding.ActivityMainBinding
 import com.google.android.material.tabs.TabLayoutMediator
@@ -29,7 +28,10 @@ class MainActivity : AppCompatActivity() {
             adapter = ViewPagerAdapter(supportFragmentManager, lifecycle)
         }
 
-        val tabText = listOf("전체", "즐겨찾기")
+        val tabText = listOf(
+            resources.getString(R.string.show_all_tab_text),
+            resources.getString(R.string.favorite_tab_text)
+        )
 
         TabLayoutMediator(binding.tabs, binding.mainViewPager) { tab, position ->
             tab.text = tabText[position]

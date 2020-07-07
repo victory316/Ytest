@@ -39,7 +39,8 @@ class FavoriteAdapter(private val answersViewModel: MainViewModel) :
         private fun formatTimeStamp(timestamp: Long): String {
             val tempCalendar = Calendar.getInstance()
             tempCalendar.timeInMillis = timestamp
-            val dateFormat = SimpleDateFormat("YYYY-MM-dd hh:mm")
+
+            val dateFormat = SimpleDateFormat("YY/MM/dd HH:mm", Locale.getDefault())
 
             return dateFormat.format(tempCalendar.time)
         }
@@ -53,11 +54,13 @@ class FavoriteAdapter(private val answersViewModel: MainViewModel) :
                 secondaryText = item.description.price.toString()
                 scoreText = item.rate.toString()
                 addedTimeString = formatTimeStamp(item.savedTime)
+                favoriteSwitch.isChecked = true
 
                 favoriteSwitch.setOnClickListener {
                     answersViewModel.deleteFavorite(item.id)
                 }
 
+                // 전체 뷰 선택시 DetailActivity 시작
                 root.setOnClickListener {
                     answersViewModel.showDetailView(item.id)
                 }

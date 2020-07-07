@@ -4,6 +4,7 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import androidx.lifecycle.Lifecycle
 import androidx.viewpager2.adapter.FragmentStateAdapter
+import com.example.ytest.util.Constants.VIEWPAGER_COUNT
 import com.example.ytest.view.fragments.ProductFragment
 import com.example.ytest.view.fragments.FavoriteFragment
 
@@ -13,7 +14,7 @@ import com.example.ytest.view.fragments.FavoriteFragment
 
 class ViewPagerAdapter(fm: FragmentManager?, lifecycle: Lifecycle) : FragmentStateAdapter(fm!!, lifecycle){
     override fun getItemCount(): Int {
-        return 2
+        return VIEWPAGER_COUNT
     }
 
     override fun createFragment(position: Int): Fragment {
